@@ -1,0 +1,12 @@
+{
+  "skills": [
+    {
+      "source": "anthropics/skills",
+      "name": "doc-coauthoring"
+    },
+    {
+      "source": "vercel-labs/skills",
+      "name": "find-skills"
+    }
+  ]
+}

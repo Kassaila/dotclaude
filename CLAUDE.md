@@ -1,27 +1,37 @@
-# dotclaude
+# CLAUDE.md
 
-Shared Claude Code configuration — global skills, agents, and instructions
+## Project Overview
 
-## Structure
+**dotclaude** — shared Claude Code configuration repository. Contains global skills, agents, and
+instructions. Individual items are symlinked to `~/.claude/` and coexist with skills installed via
+`npx skills`.
+
+## Repository Structure
 
 ```
-skills/
+skills/                            # Slash commands (global)
 ├── commit-proposal/SKILL.md       # /commit-proposal — suggest commit message and files
 ├── refactor/SKILL.md              # /refactor <target> — refactor with explanation
 ├── explain/SKILL.md               # /explain <target> — explain code/architecture
 ├── feature/SKILL.md               # /feature <name> — start feature workflow
 └── memory-leak-audit/SKILL.md     # /memory-leak-audit — audit for leak patterns
-agents/
-├── code-reviewer.md               # Code review agent (sonnet)
-└── docs-updater.md                # Documentation updater agent (sonnet)
+agents/                            # Subagents (global)
+├── code-reviewer.md               # Code review agent
+└── docs-updater.md                # Documentation updater agent
 external-skills.json               # External skills registry (for install-external)
-bin/
+bin/                               # Executable scripts
 ├── install.sh                     # Symlink skills, agents, and config to ~/.claude/
 ├── install-external.sh            # Install external skills from external-skills.json
 ├── uninstall.sh                   # Remove dotclaude symlinks from ~/.claude/
 └── status.sh                      # Show dotclaude and external skills status
-Makefile
+Makefile                           # make install / install-external / uninstall / status
 ```
+
+## Rules
+
+- Never create commits — only suggest commit messages and files to stage
+- Technical, concise responses
+- Conventional commits format for commit messages
 
 ## Usage
 
@@ -32,6 +42,6 @@ make uninstall          # Remove dotclaude symlinks from ~/.claude/
 make status             # Show dotclaude and external skills status
 ```
 
-External skills from [skills.sh](https://skills.sh/) are managed via `external-skills.json`.
-
-Project-level `.claude/` overrides global config for same-named skills/agents.
+- `make install` symlinks each skill, agent, and CLAUDE.md individually (not the whole directory)
+- `make install-external` installs skills listed in `external-skills.json` via `npx skills`
+- Project-level `.claude/` overrides global config for same-named skills/agents
