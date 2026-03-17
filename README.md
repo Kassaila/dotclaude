@@ -32,6 +32,54 @@ make uninstall          # Remove dotclaude symlinks from ~/.claude/
 make status             # Show dotclaude and external skills status
 ```
 
-External skills from [skills.sh](https://skills.sh/) are managed via `external-skills.json`.
+## Adding Skills
+
+Create `skills/<skill-name>/SKILL.md` with frontmatter:
+
+```markdown
+---
+name: <skill-name>
+description: Short description. When to trigger.
+allowed-tools: Read, Grep, Glob
+---
+
+Prompt and instructions for the skill.
+```
+
+Then run `make install` to symlink it to `~/.claude/skills/`.
+
+## Adding Agents
+
+Create `agents/<agent-name>.md` with frontmatter:
+
+```markdown
+---
+name: <agent-name>
+description: Short description. When to use.
+tools: Read, Grep, Glob
+model: sonnet
+---
+
+System prompt for the agent.
+```
+
+Then run `make install` to symlink it to `~/.claude/agents/`.
+
+## External Skills
+
+Skills from [skills.sh](https://skills.sh/) are managed via `external-skills.json`.
+
+Add an entry to the `skills` array:
+
+```json
+{
+  "source": "<org>/<repo>",
+  "name": "<skill-name>"
+}
+```
+
+Then run `make install-external` to install via `npx skills`.
+
+## Notes
 
 Project-level `.claude/` overrides global config for same-named skills/agents.
