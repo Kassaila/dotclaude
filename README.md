@@ -11,7 +11,10 @@ skills/
 ├── explain/SKILL.md               # /explain <target> — explain code/architecture
 ├── feature/SKILL.md               # /feature <name> — start feature workflow
 ├── memory-leak-audit/SKILL.md     # /memory-leak-audit — audit for leak patterns
-└── skill-validator/SKILL.md       # /skill-validator — validate skills against spec
+├── skill-validator/SKILL.md       # /skill-validator — validate skills against spec
+└── js-data-structures/            # JS data structures reference (auto-trigger)
+    ├── SKILL.md
+    └── references/                # 12 structure guides (heap, queue, trie, etc.)
 agents/
 ├── code-reviewer.md               # Code review agent (sonnet)
 └── docs-updater.md                # Documentation updater agent (sonnet)
