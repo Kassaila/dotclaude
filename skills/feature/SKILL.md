@@ -1,7 +1,7 @@
 ---
 name: feature
 description:
-  Start feature development workflow. Creates temp/<feature-name>/feature.md with proposal. Use
+  Start feature development workflow. Creates temp/FEATURE-NAME/feature.md with proposal. Use
   kebab-case for feature names.
 metadata:
   claude-disable-model-invocation: 'true'
