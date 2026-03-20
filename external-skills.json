@@ -2,6 +2,10 @@
   "skills": [
     {
       "source": "anthropics/skills",
+      "name": "skill-creator"
+    },
+    {
+      "source": "anthropics/skills",
       "name": "doc-coauthoring"
     },
     {
