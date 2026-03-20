@@ -10,7 +10,8 @@ skills/
 ├── refactor/SKILL.md              # /refactor <target> — refactor with explanation
 ├── explain/SKILL.md               # /explain <target> — explain code/architecture
 ├── feature/SKILL.md               # /feature <name> — start feature workflow
-└── memory-leak-audit/SKILL.md     # /memory-leak-audit — audit for leak patterns
+├── memory-leak-audit/SKILL.md     # /memory-leak-audit — audit for leak patterns
+└── skill-validator/SKILL.md       # /skill-validator — validate skills against spec
 agents/
 ├── code-reviewer.md               # Code review agent (sonnet)
 └── docs-updater.md                # Documentation updater agent (sonnet)
