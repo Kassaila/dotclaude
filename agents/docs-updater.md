@@ -3,7 +3,7 @@ name: docs-updater
 description:
   Update documentation after code changes. Finds and updates relevant docs files to stay in sync
   with the codebase.
-tools: Read, Edit, Write, Grep, Glob
+tools: Read, Edit, Write, Grep, Glob, Bash(git diff*)
 model: sonnet
 ---
 

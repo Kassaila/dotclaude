@@ -2,6 +2,8 @@
 
 # Show status of dotclaude symlinks and other installed skills/agents
 
+set -euo pipefail
+
 REPO_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 CLAUDE_DIR="$HOME/.claude"
 
@@ -29,9 +31,9 @@ for agent_file in "$REPO_DIR"/agents/*.md; do
 done
 
 echo ""
-echo "=== CLAUDE.md ==="
+echo "=== CLAUDE.md (from global-claude.md) ==="
 if [ -L "$CLAUDE_DIR/CLAUDE.md" ]; then
-  echo "  OK: CLAUDE.md"
+  echo "  OK: CLAUDE.md -> global-claude.md"
 else
   echo "  MISSING: CLAUDE.md"
 fi

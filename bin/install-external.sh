@@ -2,7 +2,14 @@
 
 # Install external skills from external-skills.json via npx skills
 
-set -e
+set -euo pipefail
+
+for cmd in jq npx; do
+  if ! command -v "$cmd" &>/dev/null; then
+    echo "ERROR: $cmd is required but not installed"
+    exit 1
+  fi
+done
 
 REPO_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 CONFIG="$REPO_DIR/external-skills.json"
@@ -12,21 +19,20 @@ if [ ! -f "$CONFIG" ]; then
   exit 1
 fi
 
-count=$(jq '.skills | length' "$CONFIG")
+skills=$(jq -r '.skills[] | .source + " " + .name' "$CONFIG")
 
-if [ "$count" -eq 0 ]; then
+if [ -z "$skills" ]; then
   echo "No external skills defined in external-skills.json"
   exit 0
 fi
 
+count=$(echo "$skills" | wc -l)
 echo "Installing $count external skill(s)..."
 echo ""
 
-for i in $(seq 0 $((count - 1))); do
-  source=$(jq -r ".skills[$i].source" "$CONFIG")
-  name=$(jq -r ".skills[$i].name" "$CONFIG")
-  echo "  Installing: $name (from $source)"
-  npx skills add "$source" -s "$name" -g --agent claude-code -y
+echo "$skills" | while read -r src name; do
+  echo "  Installing: $name (from $src)"
+  npx skills add "$src" -s "$name" -g --agent claude-code -y
 done
 
 echo ""

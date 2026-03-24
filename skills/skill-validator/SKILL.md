@@ -3,8 +3,7 @@ name: skill-validator
 description:
   Validate skill directories against the Agent Skills specification. Checks SKILL.md frontmatter,
   naming conventions, field limits, and allowed properties. Use when user asks to validate, check,
-  or lint skills, or mentions skill validation.
-compatibility: Requires skill-creator installed at ~/.claude/skills/skill-creator (provides quick_validate.py)
+  or lint skills, or mentions skill validation. Requires skill-creator at ~/.claude/skills/skill-creator.
 ---
 
 Validate skills at the given path using `quick_validate.py` from skill-creator.

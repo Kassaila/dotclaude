@@ -3,7 +3,7 @@ name: code-reviewer
 description:
   Review code for best practices, common patterns, and potential issues. Use after implementing
   features or before commits.
-tools: Read, Grep, Glob
+tools: Read, Grep, Glob, Bash(git diff*)
 model: sonnet
 ---
 

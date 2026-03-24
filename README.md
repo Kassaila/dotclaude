@@ -24,6 +24,8 @@ bin/
 ├── install-external.sh            # Install external skills from external-skills.json
 ├── uninstall.sh                   # Remove dotclaude symlinks from ~/.claude/
 └── status.sh                      # Show dotclaude and external skills status
+CLAUDE.md                          # Project-specific instructions (this repo only)
+global-claude.md                   # Global instructions (symlinked to ~/.claude/CLAUDE.md)
 Makefile
 ```
 

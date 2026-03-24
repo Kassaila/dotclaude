@@ -28,14 +28,10 @@ bin/                               # Executable scripts
 ├── install-external.sh            # Install external skills from external-skills.json
 ├── uninstall.sh                   # Remove dotclaude symlinks from ~/.claude/
 └── status.sh                      # Show dotclaude and external skills status
+CLAUDE.md                          # Project-specific instructions (this repo only)
+global-claude.md                   # Global instructions (symlinked to ~/.claude/CLAUDE.md)
 Makefile                           # make install / install-external / uninstall / status
 ```
-
-## Rules
-
-- Never create commits — only suggest commit messages and files to stage
-- Technical, concise responses
-- Conventional commits format for commit messages
 
 ## Usage
 
@@ -46,6 +42,6 @@ make uninstall          # Remove dotclaude symlinks from ~/.claude/
 make status             # Show dotclaude and external skills status
 ```
 
-- `make install` symlinks each skill, agent, and CLAUDE.md individually (not the whole directory)
+- `make install` symlinks each skill, agent, and global-claude.md individually (not the whole directory)
 - `make install-external` installs skills listed in `external-skills.json` via `npx skills`
 - Project-level `.claude/` overrides global config for same-named skills/agents

@@ -3,7 +3,7 @@
 # Symlink skills, agents, and config from dotclaude to ~/.claude/
 # Does not overwrite skills installed by other tools (e.g. npx skills)
 
-set -e
+set -euo pipefail
 
 REPO_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 CLAUDE_DIR="$HOME/.claude"
@@ -25,6 +25,7 @@ for skill_dir in "$REPO_DIR"/skills/*/; do
   if [ -e "$target" ] && [ ! -L "$target" ]; then
     echo "SKIP: skills/$skill_name (exists and is not a symlink)"
   else
+    # -n prevents creating link inside existing directory target
     ln -sfn "$skill_dir" "$target"
     echo "  OK: skills/$skill_name"
   fi
@@ -42,10 +43,10 @@ for agent_file in "$REPO_DIR"/agents/*.md; do
   fi
 done
 
-# Symlink CLAUDE.md
-if [ -f "$REPO_DIR/CLAUDE.md" ]; then
-  ln -sf "$REPO_DIR/CLAUDE.md" "$CLAUDE_DIR/CLAUDE.md"
-  echo "  OK: CLAUDE.md"
+# Symlink global-claude.md as CLAUDE.md
+if [ -f "$REPO_DIR/global-claude.md" ]; then
+  ln -sf "$REPO_DIR/global-claude.md" "$CLAUDE_DIR/CLAUDE.md"
+  echo "  OK: CLAUDE.md (from global-claude.md)"
 fi
 
 echo ""
