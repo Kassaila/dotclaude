@@ -22,9 +22,12 @@ skills/                            # Slash commands (global)
 agents/                            # Subagents (global)
 ├── code-reviewer.md               # Code review agent
 └── docs-updater.md                # Documentation updater agent
+mcp/                               # MCP server configurations
+└── global-servers.json            # Global MCP servers (context7, playwright)
 external-skills.json               # External skills registry (for install-external)
 bin/                               # Executable scripts
 ├── install.sh                     # Symlink skills, agents, and config to ~/.claude/
+├── install-mcp.sh                 # Merge global MCP servers into ~/.claude/settings.json
 ├── install-external.sh            # Install external skills from external-skills.json
 ├── uninstall.sh                   # Remove dotclaude symlinks from ~/.claude/
 └── status.sh                      # Show dotclaude and external skills status
@@ -37,6 +40,7 @@ Makefile                           # make install / install-external / uninstall
 
 ```bash
 make install            # Symlink skills, agents, and config to ~/.claude/
+make install-mcp        # Merge global MCP servers into ~/.claude/settings.json
 make install-external   # Install external skills from external-skills.json
 make uninstall          # Remove dotclaude symlinks from ~/.claude/
 make status             # Show dotclaude and external skills status

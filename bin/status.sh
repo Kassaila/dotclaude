@@ -38,6 +38,27 @@ else
   echo "  MISSING: CLAUDE.md"
 fi
 
+# MCP servers
+echo ""
+echo "=== MCP servers ==="
+SETTINGS_FILE="$CLAUDE_DIR/settings.json"
+MCP_FILE="$REPO_DIR/mcp/global-servers.json"
+if [ -f "$SETTINGS_FILE" ] && command -v jq &>/dev/null; then
+  if [ -f "$MCP_FILE" ]; then
+    for server in $(jq -r 'keys[]' "$MCP_FILE"); do
+      if jq -e ".mcpServers.\"$server\"" "$SETTINGS_FILE" &>/dev/null; then
+        echo "  OK: $server"
+      else
+        echo "  MISSING: $server"
+      fi
+    done
+  else
+    echo "  (no mcp/global-servers.json)"
+  fi
+else
+  echo "  (no settings.json or jq not installed)"
+fi
+
 # Show other (non-dotclaude) skills
 echo ""
 echo "=== Other skills (npx skills, etc.) ==="
