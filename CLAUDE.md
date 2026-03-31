@@ -14,7 +14,9 @@ skills/                            # Slash commands (global)
 ├── refactor/SKILL.md              # /refactor <target> — refactor with explanation
 ├── explain/SKILL.md               # /explain <target> — explain code/architecture
 ├── feature/SKILL.md               # /feature <name> — start feature workflow
-├── memory-leak-audit/SKILL.md     # /memory-leak-audit — audit for leak patterns
+├── memory-leak-audit/             # /memory-leak-audit — audit for leak patterns
+│   ├── SKILL.md
+│   └── references/                # 3 guides (leak patterns, framework patterns, fix reference)
 ├── skill-validator/SKILL.md       # /skill-validator — validate skills against spec
 ├── dep-bloat-audit/               # /dep-bloat-audit — audit npm deps for JS bloat
 │   ├── SKILL.md
