@@ -16,6 +16,9 @@ skills/                            # Slash commands (global)
 ├── feature/SKILL.md               # /feature <name> — start feature workflow
 ├── memory-leak-audit/SKILL.md     # /memory-leak-audit — audit for leak patterns
 ├── skill-validator/SKILL.md       # /skill-validator — validate skills against spec
+├── dep-bloat-audit/               # /dep-bloat-audit — audit npm deps for JS bloat
+│   ├── SKILL.md
+│   └── references/                # 4 package tables (shims, micro-pkgs, ponyfills, replacements)
 └── js-data-structures/            # JS data structures reference (auto-trigger)
     ├── SKILL.md
     └── references/                # 12 structure guides (heap, queue, trie, etc.)
