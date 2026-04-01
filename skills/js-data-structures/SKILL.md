@@ -5,11 +5,11 @@ description: Implement and use data structures in JavaScript. Use when working w
 
 # Data Structures (JavaScript)
 
-## Prefer mnemonist over hand-rolled implementations
+## Use a library unless you can't afford the dependency
 
-Use `mnemonist` (~1–3 KB min+gz per module, tree-shakable, typed, zero-DOM, SSR-safe) for production code. Fall back to manual implementations only when adding a dependency is not an option (micro-libraries, zero-dep packages).
-
-For graphs use `graphology` — mnemonist does not include a graph structure.
+A good data-structure library should be tree-shakable, lightweight, typed, and SSR-safe.
+This skill recommends `mnemonist` (collections) and `graphology` (graphs) — each reference
+shows both the library API and a manual fallback for zero-dep contexts.
 
 ## Map vs Object, Set vs Array
 
@@ -42,3 +42,9 @@ Load the relevant reference when the user needs a specific data structure:
 
 - **Bloom Filter** — see `references/bloom-filter.md`. FE: username pre-check, "already seen" filter. BE: URL deduplication, cache pre-check, spam filtering.
 - **Disjoint Set (Union-Find)** — see `references/disjoint-set.md`. FE: flood fill, group selection in editors. BE: connected components, cycle detection, network partitions.
+- **Graph** — see `references/graph.md`. FE: relationship UIs, dependency visualization, knowledge explorers. BE: shortest path, community detection, topological sort, centrality.
+
+## Sources
+
+- **mnemonist** — [repo](https://github.com/Yomguithereal/mnemonist) · [docs](https://yomguithereal.github.io/mnemonist/) · [npm](https://www.npmjs.com/package/mnemonist)
+- **graphology** — [repo](https://github.com/graphology/graphology) · [docs](https://graphology.github.io/) · [npm](https://www.npmjs.com/package/graphology)

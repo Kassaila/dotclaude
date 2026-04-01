@@ -10,6 +10,7 @@ instructions. Individual items are symlinked to `~/.claude/` and coexist with sk
 
 ```
 skills/                            # Slash commands (global)
+├── commit/SKILL.md                # /commit — analyze changes, propose and create commit
 ├── commit-proposal/SKILL.md       # /commit-proposal — suggest commit message and files
 ├── refactor/SKILL.md              # /refactor <target> — refactor with explanation
 ├── explain/SKILL.md               # /explain <target> — explain code/architecture
@@ -23,7 +24,7 @@ skills/                            # Slash commands (global)
 │   └── references/                # 4 package tables (shims, micro-pkgs, ponyfills, replacements)
 └── js-data-structures/            # JS data structures reference (auto-trigger)
     ├── SKILL.md
-    └── references/                # 12 structure guides (heap, queue, trie, etc.)
+    └── references/                # structure guides (collections, graphs)
 agents/                            # Subagents (global)
 ├── code-reviewer.md               # Code review agent
 └── docs-updater.md                # Documentation updater agent
