@@ -22,6 +22,9 @@ skills/                            # Slash commands (global)
 ├── dep-bloat-audit/               # /dep-bloat-audit — audit npm deps for JS bloat
 │   ├── SKILL.md
 │   └── references/                # 4 package tables (shims, micro-pkgs, ponyfills, replacements)
+├── js-error-handling/             # /js-error-handling — JS/TS error handling & recovery patterns
+│   ├── SKILL.md
+│   └── references/                # 4 guides (common, node, frontend, domain errors)
 └── js-data-structures/            # JS data structures reference (auto-trigger)
     ├── SKILL.md
     └── references/                # structure guides (collections, graphs)
