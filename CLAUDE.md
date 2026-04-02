@@ -55,6 +55,7 @@ make uninstall          # Remove dotclaude symlinks from ~/.claude/
 make status             # Show dotclaude and external skills status
 ```
 
-- `make install` symlinks each skill, agent, and global-claude.md individually (not the whole directory)
+- `make install` symlinks each skill, agent, and global-claude.md individually (not the whole
+  directory)
 - `make install-external` installs skills listed in `external-skills.json` via `npx skills`
 - Project-level `.claude/` overrides global config for same-named skills/agents

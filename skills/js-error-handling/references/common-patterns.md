@@ -4,8 +4,8 @@ Patterns applicable to both Node.js and browser environments.
 
 ## Retry with exponential backoff
 
-Use for transient failures: network errors, rate limits, DB connection timeouts.
-Do not retry on 4xx (client errors) — they will fail again.
+Use for transient failures: network errors, rate limits, DB connection timeouts. Do not retry on 4xx
+(client errors) — they will fail again.
 
 ```javascript
 const retry = async (fn, { attempts = 3, delay = 1000 } = {}) => {
@@ -13,7 +13,10 @@ const retry = async (fn, { attempts = 3, delay = 1000 } = {}) => {
     try {
       return await fn();
     } catch (error) {
-      if (i === attempts - 1) throw error;
+      if (i === attempts - 1) {
+        throw error;
+      }
+
       await new Promise((r) => setTimeout(r, delay * 2 ** i));
     }
   }
@@ -28,9 +31,7 @@ Prevent hanging on calls that never resolve.
 const withTimeout = (promise, ms) =>
   Promise.race([
     promise,
-    new Promise((_, reject) =>
-      setTimeout(() => reject(new Error(`Timeout after ${ms}ms`)), ms)
-    ),
+    new Promise((_, reject) => setTimeout(() => reject(new Error(`Timeout after ${ms}ms`)), ms)),
   ]);
 ```
 
@@ -46,7 +47,10 @@ try {
   const res = await fetch(url, { signal: controller.signal });
   return await res.json();
 } catch (error) {
-  if (error.name === 'AbortError') return fallback();
+  if (error.name === 'AbortError') {
+    return fallback();
+  }
+
   throw error;
 } finally {
   clearTimeout(timeout);
@@ -60,11 +64,11 @@ When running parallel operations, collect all errors instead of failing on first
 ```javascript
 const results = await Promise.allSettled(tasks.map(fn));
 
-const errors = results
-  .filter((r) => r.status === 'rejected')
-  .map((r) => r.reason);
+const errors = results.filter((r) => r.status === 'rejected').map((r) => r.reason);
 
-if (errors.length) throw new AggregateError(errors, 'Partial failure');
+if (errors.length) {
+  throw new AggregateError(errors, 'Partial failure');
+}
 ```
 
 ## Centralized error handler
@@ -80,7 +84,9 @@ class ErrorHandler {
 
   handle(error, context = {}) {
     this.logger.error('Error:', { message: error.message, ...context });
+
     this.onError?.(error, context);
+
     return this.getUserMessage(error);
   }
 
@@ -94,7 +100,11 @@ class ErrorHandler {
       };
       return messages[error.status] || error.message || 'Something went wrong';
     }
-    if (error.code === 'NETWORK_ERROR') return 'Network connection failed';
+
+    if (error.code === 'NETWORK_ERROR') {
+      return 'Network connection failed';
+    }
+
     return 'An unexpected error occurred';
   }
 }
@@ -102,7 +112,8 @@ class ErrorHandler {
 
 ## Sources
 
-- [Error Handling — Frontend Patterns](https://frontendpatterns.dev/error-handling/) — centralized handler, retry, timeout, graceful degradation
+- [Error Handling — Frontend Patterns](https://frontendpatterns.dev/error-handling/) — centralized
+  handler, retry, timeout, graceful degradation
 - [MDN — AbortController](https://developer.mozilla.org/en-US/docs/Web/API/AbortController)
 - [MDN — Promise.allSettled](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/allSettled)
 - [MDN — AggregateError](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/AggregateError)

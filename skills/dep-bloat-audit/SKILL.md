@@ -35,25 +35,25 @@ Analyze `package.json` in the current directory or `$ARGUMENTS` if a path is pro
 ## Audit process
 
 1. **Read `package.json`** — collect direct `dependencies` and `devDependencies`. Note
-   `engines.node` if present — use it to filter ponyfill relevance (only flag ponyfills for
-   features available in the declared minimum engine version).
+   `engines.node` if present — use it to filter ponyfill relevance (only flag ponyfills for features
+   available in the declared minimum engine version).
 2. **Check dependency tree** — run `npm ls --all --json 2>/dev/null` (or read `package-lock.json`)
    to find transitive dependencies.
 3. **Run e18e analysis** — execute `npx @e18e/cli analyze 2>/dev/null` to detect replaceable
-   packages with community-recommended alternatives. If the command fails (not installed, no
-   npm project), skip this step silently and rely on the built-in tables in `references/`.
-4. **Run knip** — execute `npx knip --dependencies --no-progress 2>/dev/null` to find unused
-   direct dependencies. If the command fails, skip silently. Include any findings in a separate
-   "Unused Dependencies" section of the report.
+   packages with community-recommended alternatives. If the command fails (not installed, no npm
+   project), skip this step silently and rely on the built-in tables in `references/`.
+4. **Run knip** — execute `npx knip --dependencies --no-progress 2>/dev/null` to find unused direct
+   dependencies. If the command fails, skip silently. Include any findings in a separate "Unused
+   Dependencies" section of the report.
 5. **Classify each flagged dependency** into one of three pillars using the tables in `references/`.
 6. **Detect duplication** — run `npm ls --all 2>/dev/null` and look for packages appearing in
-   multiple versions (lines with `deduped` or different semver for the same name). Report
-   duplicated bloat packages in a "Version Duplication" section.
-7. **Detect single-consumer packages** — for each flagged atomic micro-package (Pillar 2), check
-   if it has only one dependent in the tree. If so, recommend inlining into that consumer.
+   multiple versions (lines with `deduped` or different semver for the same name). Report duplicated
+   bloat packages in a "Version Duplication" section.
+7. **Detect single-consumer packages** — for each flagged atomic micro-package (Pillar 2), check if
+   it has only one dependent in the tree. If so, recommend inlining into that consumer.
 8. **Merge results** — combine e18e suggestions, knip findings, and built-in table matches.
-   Deduplicate: if e18e and the tables both flag a package, prefer the e18e recommendation
-   (it may have more current replacement info).
+   Deduplicate: if e18e and the tables both flag a package, prefer the e18e recommendation (it may
+   have more current replacement info).
 9. **Report** findings with replacements.
 
 ## Output format
@@ -149,6 +149,7 @@ Total dependencies: X direct, Y transitive
 
 ## Source
 
-Based on [The Three Pillars of JavaScript Bloat](https://43081j.com/posts/2026-03-12-three-pillars-of-javascript-bloat/)
+Based on
+[The Three Pillars of JavaScript Bloat](https://43081j.com/posts/2026-03-12-three-pillars-of-javascript-bloat/)
 by [43081j](https://github.com/43081j) (March 2026).
 [Source](https://github.com/43081j/43081j.github.io/blob/master/_posts/2026-03-12-three-pillars-of-javascript-bloat.md)

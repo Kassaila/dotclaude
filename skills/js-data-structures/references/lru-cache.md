@@ -1,6 +1,7 @@
 # LRU Cache
 
 Common use cases:
+
 - **FE**: API response caching, image/asset caching, memoized selectors, component render cache
 - **BE**: DB query result caching, session store, DNS resolution cache, template compilation cache
 
@@ -12,13 +13,25 @@ import LRUCache from 'mnemonist/lru-cache';
 const cache = new LRUCache(100);
 
 cache.set('user:1', { name: 'Alice' });
-cache.get('user:1');          // { name: 'Alice' }, promotes to most-recent
-cache.peek('user:1');         // same, but without promotion
 
-const evicted = cache.setpop('user:101', data); // returns evicted entry if at capacity
+/**
+ * promotes to most-recent
+ */
+cache.get('user:1');
+
+/**
+ * same, but without promotion
+ */
+cache.peek('user:1');
+
+/**
+ * returns evicted entry if at capacity
+ */
+const evicted = cache.setpop('user:101', data);
 ```
 
-Internally uses typed arrays as doubly-linked list pointers — zero GC pressure vs object-node approach.
+Internally uses typed arrays as doubly-linked list pointers — zero GC pressure vs object-node
+approach.
 
 ## Manual fallback (Doubly-linked list + Map)
 
@@ -43,6 +56,7 @@ class DoublyLinkedList {
     }
 
     this.#head = node;
+
     this.#length++;
   }
 
@@ -75,6 +89,7 @@ class DoublyLinkedList {
 
     node.prev = null;
     node.next = null;
+
     this.#length--;
   }
 

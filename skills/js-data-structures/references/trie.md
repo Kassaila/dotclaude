@@ -1,8 +1,10 @@
 # Trie (Prefix Tree)
 
 Common use cases:
+
 - **FE**: autocomplete, command palette, tag/emoji search, search suggestions, dictionary lookup
-- **BE**: URL pattern routing, IP prefix matching, CLI argument parsing, feature flag prefix matching, word filtering
+- **BE**: URL pattern routing, IP prefix matching, CLI argument parsing, feature flag prefix
+  matching, word filtering
 
 ## mnemonist (preferred)
 
@@ -11,9 +13,14 @@ import Trie from 'mnemonist/trie';
 
 const trie = Trie.from(['react', 'redux', 'remix', 'recoil', 'relay']);
 
-trie.has('react');       // true
-trie.find('re');         // ['react', 'redux', 'remix', 'recoil', 'relay']
-trie.find('rem');        // ['remix']
+/**
+ * has('react') → true
+ * find('re') → ['react', 'redux', 'remix', 'recoil', 'relay']
+ * find('rem') → ['remix']
+ */
+trie.has('react');
+trie.find('re');
+trie.find('rem');
 trie.delete('remix');
 ```
 

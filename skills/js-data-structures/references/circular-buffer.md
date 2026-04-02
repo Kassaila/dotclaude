@@ -1,23 +1,35 @@
 # Circular Buffer
 
 Common use cases:
-- **FE**: canvas trail effects (last N positions), real-time charts (last N data points), FPS/memory sampling, input history (undo ring)
-- **BE**: rolling log buffer, metrics sliding window, connection pool round-robin, streaming data ingestion (last N events)
+
+- **FE**: canvas trail effects (last N positions), real-time charts (last N data points), FPS/memory
+  sampling, input history (undo ring)
+- **BE**: rolling log buffer, metrics sliding window, connection pool round-robin, streaming data
+  ingestion (last N events)
 
 ## mnemonist (preferred)
 
 ```javascript
 import CircularBuffer from 'mnemonist/circular-buffer';
 
-// overwrites oldest on overflow (ideal for sampling/streaming)
+/**
+ * overwrites oldest on overflow (ideal for sampling/streaming)
+ */
 const buf = new CircularBuffer(Array, 100);
 
 buf.push('a');
 buf.push('b');
-buf.shift();      // 'a'
-buf.peekFirst();  // 'b'
 
-// for numeric data — use typed arrays for better performance
+/**
+ * shift → 'a'
+ * peekFirst → 'b'
+ */
+buf.shift();
+buf.peekFirst();
+
+/**
+ * for numeric data — use typed arrays for better performance
+ */
 const samples = new CircularBuffer(Float64Array, 1000);
 ```
 
@@ -56,6 +68,7 @@ class CircularBuffer {
     }
 
     this.#buffer[this.#writeIdx] = item;
+
     this.#writeIdx = (this.#writeIdx + 1) % this.#capacity;
     this.#count++;
   }
@@ -75,7 +88,8 @@ class CircularBuffer {
 
     const item = this.#buffer[this.#readIdx];
 
-    this.#buffer[this.#readIdx] = undefined; // GC
+    this.#buffer[this.#readIdx] = undefined;
+
     this.#readIdx = (this.#readIdx + 1) % this.#capacity;
     this.#count--;
 

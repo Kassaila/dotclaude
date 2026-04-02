@@ -1,8 +1,11 @@
 # Stack
 
 Common use cases:
-- **FE**: undo/redo history, back/forward navigation, modal/dialog stacking, nested dropdown menus, breadcrumb trail
-- **BE**: expression parsing, bracket matching, DFS traversal, call stack simulation, recursive-to-iterative conversion, middleware chain unwinding
+
+- **FE**: undo/redo history, back/forward navigation, modal/dialog stacking, nested dropdown menus,
+  breadcrumb trail
+- **BE**: expression parsing, bracket matching, DFS traversal, call stack simulation,
+  recursive-to-iterative conversion, middleware chain unwinding
 
 ## mnemonist (preferred)
 
@@ -13,9 +16,15 @@ const s = new Stack();
 
 s.push('a');
 s.push('b');
-s.peek(); // 'b'
-s.pop();  // 'b'
-s.size;   // 1
+
+/**
+ * peek → 'b'
+ * pop → 'b'
+ * size → 1
+ */
+s.peek();
+s.pop();
+s.size;
 ```
 
 For fixed-capacity with typed array backing: `import FixedStack from 'mnemonist/fixed-stack'`.
@@ -48,4 +57,5 @@ class Stack {
 }
 ```
 
-Note: a plain `Array` already works as a stack (`push`/`pop`). A wrapper class is useful when you want to enforce LIFO-only access or need `peek()`/`isEmpty()` semantics.
+Note: a plain `Array` already works as a stack (`push`/`pop`). A wrapper class is useful when you
+want to enforce LIFO-only access or need `peek()`/`isEmpty()` semantics.

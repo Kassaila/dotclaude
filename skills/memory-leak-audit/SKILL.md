@@ -41,8 +41,8 @@ Search the target directory (default: `src/`) or `$ARGUMENTS` if provided. Scan 
 4. **Classify risk**:
    - **High**: Pattern in a frequently mounted component (route views, list items, modals, tabs)
    - **Medium**: Pattern in a rarely mounted component or singleton
-   - **Low**: Self-completing observable, short-lived timer, or singleton that never unmounts
-     (see `references/fix-reference.md` for acceptable-finding criteria)
+   - **Low**: Self-completing observable, short-lived timer, or singleton that never unmounts (see
+     `references/fix-reference.md` for acceptable-finding criteria)
 5. **Report** findings grouped by file
 
 ## Output format
@@ -81,5 +81,6 @@ Found: Y potential leak patterns
 
 ## Source
 
-Based on [Frontend Memory Leaks: Empirical Study](https://stackinsight.dev/blog/memory-leak-empirical-study/)
+Based on
+[Frontend Memory Leaks: Empirical Study](https://stackinsight.dev/blog/memory-leak-empirical-study/)
 by StackInsight.

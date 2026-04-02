@@ -1,8 +1,11 @@
 # Queue
 
 Common use cases:
-- **FE**: analytics event batching, animation queues, sequential toast notifications, rate-limited requests
-- **BE**: job/task queues, message processing, request throttling, email sending pipeline, webhook delivery
+
+- **FE**: analytics event batching, animation queues, sequential toast notifications, rate-limited
+  requests
+- **BE**: job/task queues, message processing, request throttling, email sending pipeline, webhook
+  delivery
 
 ## mnemonist (preferred)
 
@@ -13,9 +16,15 @@ const q = new Queue();
 
 q.enqueue('task-1');
 q.enqueue('task-2');
-q.dequeue(); // 'task-1'
-q.peek();    // 'task-2'
-q.size;      // 1
+
+/**
+ * dequeue → 'task-1'
+ * peek → 'task-2'
+ * size → 1
+ */
+q.dequeue();
+q.peek();
+q.size;
 ```
 
 For double-ended queue with fixed capacity: `import FixedDeque from 'mnemonist/fixed-deque'`.
@@ -38,7 +47,7 @@ class Queue {
 
     const item = this.#buffer[this.#offset];
 
-    this.#buffer[this.#offset++] = undefined; // GC
+    this.#buffer[this.#offset++] = undefined;
 
     if (this.#offset > this.#buffer.length >>> 1) {
       this.#buffer = this.#buffer.slice(this.#offset);

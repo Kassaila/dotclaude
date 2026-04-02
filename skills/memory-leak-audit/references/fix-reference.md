@@ -2,14 +2,14 @@
 
 ## One-line fixes by pattern
 
-| Pattern | Fix |
-|---|---|
-| Timer | `onUnmounted(() => clearInterval(id))` / `return () => clearTimeout(id)` |
-| Listener | `onUnmounted(() => removeEventListener('event', handler))` |
-| Watch | `const stop = watch(...); onUnmounted(() => stop())` |
-| Subscription | `.pipe(takeUntil(destroy$))` or `onUnmounted(() => sub.unsubscribe())` |
-| Observer | `onUnmounted(() => observer.disconnect())` |
-| RAF | `onUnmounted(() => cancelAnimationFrame(frameId))` |
+| Pattern      | Fix                                                                      |
+| ------------ | ------------------------------------------------------------------------ |
+| Timer        | `onUnmounted(() => clearInterval(id))` / `return () => clearTimeout(id)` |
+| Listener     | `onUnmounted(() => removeEventListener('event', handler))`               |
+| Watch        | `const stop = watch(...); onUnmounted(() => stop())`                     |
+| Subscription | `.pipe(takeUntil(destroy$))` or `onUnmounted(() => sub.unsubscribe())`   |
+| Observer     | `onUnmounted(() => observer.disconnect())`                               |
+| RAF          | `onUnmounted(() => cancelAnimationFrame(frameId))`                       |
 
 ## When findings are acceptable
 

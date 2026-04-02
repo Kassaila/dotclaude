@@ -1,8 +1,11 @@
 # BiMap (Bidirectional Map)
 
 Common use cases:
-- **FE**: keybinding ↔ action mapping, locale code ↔ language name, theme token ↔ CSS variable, tab ID ↔ route
-- **BE**: enum/code bidirectional lookups, ID ↔ slug, MIME type ↔ extension, user ID ↔ socket ID, short URL ↔ full URL
+
+- **FE**: keybinding ↔ action mapping, locale code ↔ language name, theme token ↔ CSS variable, tab
+  ID ↔ route
+- **BE**: enum/code bidirectional lookups, ID ↔ slug, MIME type ↔ extension, user ID ↔ socket ID,
+  short URL ↔ full URL
 
 ## mnemonist (preferred)
 
@@ -14,11 +17,19 @@ const bm = new BiMap();
 bm.set('ua', 'Ukraine');
 bm.set('us', 'United States');
 
-bm.get('ua');            // 'Ukraine'
-bm.inverse.get('Ukraine'); // 'ua'
+/**
+ * get('ua') → 'Ukraine'
+ * inverse.get('Ukraine') → 'ua'
+ */
+bm.get('ua');
+bm.inverse.get('Ukraine');
 
 bm.delete('ua');
-bm.size; // 1
+
+/**
+ * → 1
+ */
+bm.size;
 ```
 
 ## Manual fallback (Two Maps)

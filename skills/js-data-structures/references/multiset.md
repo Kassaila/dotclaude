@@ -1,8 +1,10 @@
 # MultiSet (Bag / Counter)
 
 Common use cases:
+
 - **FE**: vote/reaction tallying, poll results, filter tag counts, shopping cart item quantities
-- **BE**: word frequency counting, log level histogram, inventory tracking, anagram detection, API usage metering per key
+- **BE**: word frequency counting, log level histogram, inventory tracking, anagram detection, API
+  usage metering per key
 
 ## mnemonist (preferred)
 
@@ -15,21 +17,39 @@ bag.add('apple');
 bag.add('apple');
 bag.add('banana');
 
-bag.multiplicity('apple'); // 2
-bag.multiplicity('banana'); // 1
-bag.count('cherry');        // 0
-bag.size;                   // 3 (total count)
-bag.dimension;              // 2 (distinct elements)
+/**
+ * multiplicity('apple') → 2
+ * multiplicity('banana') → 1
+ * count('cherry') → 0
+ * size → 3 (total count)
+ * dimension → 2 (distinct elements)
+ */
+bag.multiplicity('apple');
+bag.multiplicity('banana');
+bag.count('cherry');
+bag.size;
+bag.dimension;
 
-bag.remove('apple');        // decrements count
-bag.remove('apple');        // removes entirely
+/**
+ * remove — decrements count, removes entirely when 0
+ */
+bag.remove('apple');
+bag.remove('apple');
 
-// from iterable
+/**
+ * from iterable
+ */
 const counter = MultiSet.from('abracadabra');
-counter.multiplicity('a');  // 5
 
-// top-k
-counter.top(3); // [['a', 5], ['b', 2], ['r', 2]]
+/**
+ * → 5
+ */
+counter.multiplicity('a');
+
+/**
+ * top-k → [['a', 5], ['b', 2], ['r', 2]]
+ */
+counter.top(3);
 ```
 
 ## Manual fallback
@@ -51,6 +71,7 @@ class MultiSet {
     const current = this.#counts.get(item) ?? 0;
 
     this.#counts.set(item, current + count);
+
     this.#size += count;
   }
 
@@ -65,9 +86,11 @@ class MultiSet {
 
     if (next <= 0) {
       this.#size -= current;
+
       this.#counts.delete(item);
     } else {
       this.#size -= count;
+
       this.#counts.set(item, next);
     }
   }

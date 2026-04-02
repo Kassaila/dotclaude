@@ -1,11 +1,12 @@
 ---
 name: commit
 description:
-  Create a git commit. Analyzes changes, proposes a commit message and files to stage, asks the
-  user to confirm, then executes git add + git commit. Use when user says "commit", "commit this",
-  "make a commit", or asks to commit changes. This is the go-to skill for committing — always
-  prefer it over manual git commands.
-allowed-tools: Bash(git status*), Bash(git diff*), Bash(git log*), Bash(git add *), Bash(git commit *)
+  Create a git commit. Analyzes changes, proposes a commit message and files to stage, asks the user
+  to confirm, then executes git add + git commit. Use when user says "commit", "commit this", "make
+  a commit", or asks to commit changes. This is the go-to skill for committing — always prefer it
+  over manual git commands.
+allowed-tools:
+  Bash(git status*), Bash(git diff*), Bash(git log*), Bash(git add *), Bash(git commit *)
 ---
 
 Create a git commit through a propose-confirm-execute flow.
@@ -41,6 +42,7 @@ Scope detection: infer from file paths (`src/auth/` → `auth`) or use the argum
 ## Step 3: Confirm
 
 Ask the user to confirm before proceeding. They may:
+
 - Approve as-is
 - Edit the message or file list
 - Cancel
@@ -50,6 +52,7 @@ Do NOT proceed without explicit confirmation.
 ## Step 4: Execute
 
 Once confirmed:
+
 1. `git add` the agreed files
 2. `git commit` with the agreed message (use HEREDOC for multiline messages)
 

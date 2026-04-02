@@ -1,8 +1,11 @@
 # Graph
 
 Common use cases:
-- **FE**: relationship UIs (social networks, org charts), dependency visualization, knowledge graph explorers, interactive graph editors (sigma.js)
-- **BE**: shortest path / routing, community detection (Louvain), topological sort for DAGs, centrality / PageRank, connected components, cycle detection
+
+- **FE**: relationship UIs (social networks, org charts), dependency visualization, knowledge graph
+  explorers, interactive graph editors (sigma.js)
+- **BE**: shortest path / routing, community detection (Louvain), topological sort for DAGs,
+  centrality / PageRank, connected components, cycle detection
 
 ## graphology (preferred)
 
@@ -11,32 +14,47 @@ import Graph from 'graphology';
 
 const graph = new Graph();
 
-// nodes
+/**
+ * nodes
+ */
 graph.addNode('alice', { role: 'admin' });
 graph.addNode('bob', { role: 'user' });
 graph.addNode('carol', { role: 'user' });
 
-// edges
+/**
+ * edges
+ */
 graph.addEdge('alice', 'bob', { weight: 1 });
 graph.addEdge('bob', 'carol', { weight: 3 });
 graph.addEdge('alice', 'carol', { weight: 2 });
 
-// query
-graph.order;                    // 3 (node count)
-graph.size;                     // 3 (edge count)
-graph.hasNode('alice');         // true
-graph.neighbors('bob');         // ['alice', 'carol']
-graph.degree('alice');          // 2
+/**
+ * query
+ * order → 3 (node count)
+ * size → 3 (edge count)
+ * hasNode → true
+ * neighbors → ['alice', 'carol']
+ * degree → 2
+ */
+graph.order;
+graph.size;
+graph.hasNode('alice');
+graph.neighbors('bob');
+graph.degree('alice');
 
-// traverse
+/**
+ * traverse
+ */
 graph.forEachNode((node, attrs) => console.log(node, attrs.role));
 graph.forEachEdge((edge, attrs, source, target) =>
   console.log(`${source} -> ${target} (${attrs.weight})`),
 );
 
-// update
-graph.mergeNode('dave', { role: 'user' });   // add or update
-graph.mergeEdge('dave', 'alice');             // add edge if missing
+/**
+ * update — mergeNode/mergeEdge add or update if already exists
+ */
+graph.mergeNode('dave', { role: 'user' });
+graph.mergeEdge('dave', 'alice');
 graph.updateNodeAttribute('alice', 'role', (r) => r.toUpperCase());
 ```
 
@@ -46,28 +64,34 @@ For typed graphs: `import { DirectedGraph, UndirectedGraph } from 'graphology'`.
 
 Install individually or all at once via `graphology-library`.
 
-| Package | What it does |
-|---|---|
-| `graphology-shortest-path` | Dijkstra, A* — find cheapest/fastest route between nodes |
-| `graphology-traversal` | BFS, DFS — walk the graph in breadth-first or depth-first order |
-| `graphology-communities-louvain` | Louvain clustering — detect groups of densely connected nodes |
-| `graphology-components` | Connected components — find isolated subgraphs (strong/weak) |
-| `graphology-metrics` | Centrality, density, modularity — measure node/graph importance |
-| `graphology-dag` | Topological sort, cycle detection — for directed acyclic graphs |
-| `graphology-operators` | Union, intersection, reverse — combine or transform graphs |
+| Package                          | What it does                                                    |
+| -------------------------------- | --------------------------------------------------------------- |
+| `graphology-shortest-path`       | Dijkstra, A\* — find cheapest/fastest route between nodes       |
+| `graphology-traversal`           | BFS, DFS — walk the graph in breadth-first or depth-first order |
+| `graphology-communities-louvain` | Louvain clustering — detect groups of densely connected nodes   |
+| `graphology-components`          | Connected components — find isolated subgraphs (strong/weak)    |
+| `graphology-metrics`             | Centrality, density, modularity — measure node/graph importance |
+| `graphology-dag`                 | Topological sort, cycle detection — for directed acyclic graphs |
+| `graphology-operators`           | Union, intersection, reverse — combine or transform graphs      |
 
 ```javascript
-// shortest path — find route between two nodes
+/**
+ * shortest path — find route between two nodes
+ */
 import { dijkstra } from 'graphology-shortest-path';
 
-dijkstra.bidirectional(graph, 'alice', 'carol'); // ['alice', 'carol']
+dijkstra.bidirectional(graph, 'alice', 'carol');
 
-// community detection — assign cluster labels to nodes
+/**
+ * community detection — assign cluster labels to nodes
+ */
 import louvain from 'graphology-communities-louvain';
 
-louvain.assign(graph); // each node gets a `community` attribute
+louvain.assign(graph);
 
-// traversal — walk graph breadth-first from a starting node
+/**
+ * traversal — walk graph breadth-first from a starting node
+ */
 import { bfsFromNode } from 'graphology-traversal';
 
 bfsFromNode(graph, 'alice', (node, attrs, depth) => {
@@ -121,6 +145,7 @@ class Graph {
       for (const neighbor of this.neighbors(node)) {
         if (!visited.has(neighbor)) {
           visited.add(neighbor);
+
           queue.push(neighbor);
         }
       }

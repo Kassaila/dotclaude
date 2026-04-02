@@ -23,7 +23,10 @@ Domain layer throws plain errors; API layer translates to DomainError with known
 ({
   method: async ({ email }) => {
     const user = await domain.user.findByEmail(email);
-    if (!user) return new DomainError('ENOTFOUND', 'User not found');
+    if (!user) {
+      return new DomainError('ENOTFOUND', 'User not found');
+    }
+
     return user;
   },
   errors: {
@@ -60,9 +63,12 @@ const ERROR_MAP = {
 const toResponse = (error) => {
   if (error instanceof DomainError) {
     const mapped = ERROR_MAP[error.code] ?? { status: 500 };
+
     return { status: mapped.status, body: { error: { code: error.code, message: error.message } } };
   }
+
   console.error('Unexpected error:', error);
+
   return { status: 500, body: { error: { code: 'EINTERNAL', message: 'Internal error' } } };
 };
 ```
@@ -72,4 +78,5 @@ Do not expose internal error details to clients; map to known error codes or gen
 ## Sources
 
 - [Node.js — Errors documentation](https://nodejs.org/api/errors.html) — error codes convention
-- [Error Handling — Frontend Patterns](https://frontendpatterns.dev/error-handling/) — APIError class pattern
+- [Error Handling — Frontend Patterns](https://frontendpatterns.dev/error-handling/) — APIError
+  class pattern

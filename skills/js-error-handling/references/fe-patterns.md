@@ -18,8 +18,8 @@ window.addEventListener('error', (event) => {
 });
 ```
 
-`event.preventDefault()` in `unhandledrejection` suppresses the default console error — use only when you
-handle the error yourself.
+`event.preventDefault()` in `unhandledrejection` suppresses the default console error — use only
+when you handle the error yourself.
 
 ## Error boundaries — React
 
@@ -37,14 +37,16 @@ function ErrorFallback({ error, resetErrorBoundary }) {
   );
 }
 
-// Wrap component tree — scope boundaries to recoverable sections
+/**
+ * Wrap component tree — scope boundaries to recoverable sections
+ */
 <ErrorBoundary
   FallbackComponent={ErrorFallback}
   onReset={() => queryClient.clear()}
   resetKeys={[userId]}
 >
   <UserProfile />
-</ErrorBoundary>
+</ErrorBoundary>;
 ```
 
 For async errors (not caught by boundaries natively), use `showBoundary`:
@@ -62,15 +64,19 @@ function UserData({ id }) {
 ## Error boundaries — Vue
 
 ```javascript
-// Global handler
+/**
+ * Global handler
+ */
 app.config.errorHandler = (error, instance, info) => {
   console.error('Vue error:', error, info);
   errorReporter?.captureException(error);
 };
 
-// Component-level — onErrorCaptured lifecycle hook
+/**
+ * Component-level — onErrorCaptured lifecycle hook
+ * Return false to stop propagation.
+ */
 onErrorCaptured((error, instance, info) => {
-  // return false to stop propagation
   return false;
 });
 ```
@@ -93,14 +99,18 @@ onErrorCaptured((error, instance, info) => {
 Three strategies that work best combined:
 
 ```javascript
-// 1. throwOnError — propagate to error boundary (filter by status)
+/**
+ * 1. throwOnError — propagate to error boundary (filter by status)
+ */
 useQuery({
   queryKey: ['user', id],
   queryFn: fetchUser,
-  throwOnError: (error) => error.status >= 500, // only server errors
+  throwOnError: (error) => error.status >= 500,
 });
 
-// 2. Global callbacks on QueryCache — toast for background refetch failures
+/**
+ * 2. Global callbacks on QueryCache — toast for background refetch failures
+ */
 const queryClient = new QueryClient({
   queryCache: new QueryCache({
     onError: (error, query) => {
@@ -111,13 +121,18 @@ const queryClient = new QueryClient({
   }),
 });
 
-// 3. Per-query isError — local handling for expected failures
+/**
+ * 3. Per-query isError — local handling for expected failures
+ */
 const { data, isError, error } = useQuery({ queryKey: ['user', id], queryFn: fetchUser });
-if (isError) return <InlineError message={error.message} />;
+
+if (isError) {
+  return <InlineError message={error.message} />;
+}
 ```
 
-Background refetch failures: show toast, preserve stale data.
-Initial load failures: propagate to error boundary.
+Background refetch failures: show toast, preserve stale data. Initial load failures: propagate to
+error boundary.
 
 ## Graceful degradation with fallback
 
@@ -127,7 +142,9 @@ async function fetchWithFallback(url, cacheKey) {
     return await fetch(url).then((r) => r.json());
   } catch (error) {
     console.warn('Fetch failed, using cache:', error);
+
     const cached = getCached(cacheKey);
+
     return cached ? { ...cached, stale: true } : null;
   }
 }
@@ -135,25 +152,33 @@ async function fetchWithFallback(url, cacheKey) {
 
 ## Fetch error classification
 
-`fetch()` only rejects on network errors. HTTP 4xx/5xx are successful responses — check `response.ok`.
+`fetch()` only rejects on network errors. HTTP 4xx/5xx are successful responses — check
+`response.ok`.
 
 ```javascript
 const request = async (url, options) => {
   const response = await fetch(url, options);
   if (!response.ok) {
     const body = await response.json().catch(() => null);
+
     throw new APIError(body?.message ?? response.statusText, response.status);
   }
+
   return response.json();
 };
 ```
 
 ## Sources
 
-- [Error Handling — Frontend Patterns](https://frontendpatterns.dev/error-handling/) — global handlers, centralized handler, graceful degradation
-- [Use react-error-boundary to handle errors in React — Kent C. Dodds](https://kentcdodds.com/blog/use-react-error-boundary-to-handle-errors-in-react) — ErrorBoundary API, resetKeys, useErrorBoundary
-- [React Query Error Handling — TkDodo](https://tkdodo.eu/blog/react-query-error-handling) — throwOnError, global QueryCache callbacks, combining strategies
-- [Svelte docs — svelte:boundary](https://svelte.dev/docs/svelte/svelte-boundary) — Svelte 5 error boundaries
-- [Vue docs — Error Handling](https://vuejs.org/api/application.html#app-config-errorhandler) — app.config.errorHandler, onErrorCaptured
+- [Error Handling — Frontend Patterns](https://frontendpatterns.dev/error-handling/) — global
+  handlers, centralized handler, graceful degradation
+- [Use react-error-boundary to handle errors in React — Kent C. Dodds](https://kentcdodds.com/blog/use-react-error-boundary-to-handle-errors-in-react)
+  — ErrorBoundary API, resetKeys, useErrorBoundary
+- [React Query Error Handling — TkDodo](https://tkdodo.eu/blog/react-query-error-handling) —
+  throwOnError, global QueryCache callbacks, combining strategies
+- [Svelte docs — svelte:boundary](https://svelte.dev/docs/svelte/svelte-boundary) — Svelte 5 error
+  boundaries
+- [Vue docs — Error Handling](https://vuejs.org/api/application.html#app-config-errorhandler) —
+  app.config.errorHandler, onErrorCaptured
 - [MDN — Window: error event](https://developer.mozilla.org/en-US/docs/Web/API/Window/error_event)
 - [MDN — Window: unhandledrejection event](https://developer.mozilla.org/en-US/docs/Web/API/Window/unhandledrejection_event)
