@@ -25,9 +25,15 @@ skills/                            # Slash commands (global)
 ├── js-error-handling/             # /js-error-handling — JS/TS error handling & recovery patterns
 │   ├── SKILL.md
 │   └── references/                # 4 guides (common, node, frontend, domain errors)
-└── js-data-structures/            # JS data structures reference (auto-trigger)
+├── js-conventions/                # /js-conventions — JS/TS code conventions (auto-trigger)
+│   ├── SKILL.md
+│   └── references/                # 9 guides (naming, formatting, async, modules, typescript, etc.)
+├── js-gof/                        # /js-gof — Gang of Four design patterns in JS/TS
+│   ├── SKILL.md
+│   └── references/                # 3 guides (creational, structural, behavioral)
+└── js-data-structures/            # /js-data-structures — JS data structures (auto-trigger)
     ├── SKILL.md
-    └── references/                # structure guides (collections, graphs)
+    └── references/                # 13 structure guides (queue, stack, heap, trie, graph, etc.)
 agents/                            # Subagents (global)
 ├── code-reviewer.md               # Code review agent
 └── docs-updater.md                # Documentation updater agent
@@ -43,6 +49,8 @@ bin/                               # Executable scripts
 CLAUDE.md                          # Project-specific instructions (this repo only)
 global-claude.md                   # Global instructions (symlinked to ~/.claude/CLAUDE.md)
 Makefile                           # make install / install-external / uninstall / status
+commitlint.config.ts               # Commitlint configuration (conventional commits)
+package.json                       # Dev dependencies (prettier, husky, lint-staged, commitlint)
 ```
 
 ## Usage
