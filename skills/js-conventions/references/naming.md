@@ -19,18 +19,19 @@ Naming rules that static analysis cannot fully enforce. Apply consistently in al
 
 Always use a predicate prefix:
 
+**good**
+
 ```js
-/**
- * good
- */
 const isActive = true;
 const hasPermission = user.roles.includes('admin');
 const canEdit = isActive && hasPermission;
 const shouldRefresh = Date.now() - lastFetch > CACHE_TTL_MS;
+```
 
-/**
- * bad
- */
+**bad**
+
+<!-- prettier-ignore -->
+```js
 const active = true;
 const permission = user.roles.includes('admin');
 const edit = active && permission;
@@ -60,21 +61,32 @@ Start with a verb that describes the action:
 
 Include the unit to avoid ambiguity:
 
+**good**
+
 ```js
-/**
- * good
- */
 const timeoutMs = 5000;
 const maxSizeBytes = 1024 * 1024;
 const debounceDelayMs = 300;
-const maxRetries = 3; // count — no unit suffix needed
+/**
+ * count — no unit suffix needed
+ */
+const maxRetries = 3;
 const cacheTtlMs = 60_000;
+```
+
+**bad**
+
+<!-- prettier-ignore -->
+```js
+/**
+ * 5000 what? ms? seconds?
+ */
+const timeout = 5000;
 
 /**
- * bad
+ * bytes? KB? MB?
  */
-const timeout = 5000; // 5000 what? ms? seconds?
-const maxSize = 1024; // bytes? KB? MB?
+const maxSize = 1024;
 const delay = 300;
 ```
 
@@ -106,10 +118,21 @@ try {
 Singular for single entity, plural for collections:
 
 ```js
-const user = await getUser(id); // single
-const users = await listUsers(); // collection
-const orderMap = new Map(); // collection with type suffix
-const userSet = new Set(); // collection with type suffix
+/**
+ * single
+ */
+const user = await getUser(id);
+
+/**
+ * collection
+ */
+const users = await listUsers();
+
+/**
+ * collection with type suffix
+ */
+const orderMap = new Map();
+const userSet = new Set();
 ```
 
 ## TypeScript Generics
@@ -124,15 +147,15 @@ const userSet = new Set(); // collection with type suffix
 - Use single letters for simple, well-known patterns
 - Use `T`-prefixed descriptive names when the type has domain meaning
 
-```ts
-/**
- * good — simple
- */
-const first = <T>(items: T[]): T | undefined => items[0];
+**good — simple**
 
-/**
- * good — descriptive
- */
+```ts
+const first = <T>(items: T[]): T | undefined => items[0];
+```
+
+**good — descriptive**
+
+```ts
 const transform = <TInput, TOutput>(items: TInput[], fn: (item: TInput) => TOutput): TOutput[] =>
   items.map(fn);
 ```
@@ -141,26 +164,26 @@ const transform = <TInput, TOutput>(items: TInput[], fn: (item: TInput) => TOutp
 
 Name custom utility types clearly to reflect the transformation:
 
+**good — clear transformation names**
+
 ```ts
-/**
- * good — clear transformation names
- */
 type UserUpdate = Partial<Omit<User, 'id'>>;
 type UserSummary = Pick<User, 'id' | 'name'>;
 type ReadonlyConfig = Readonly<Config>;
+```
 
-/**
- * bad — opaque name
- */
+**bad — opaque name**
+
+<!-- prettier-ignore -->
+```ts
 type UserPartial = Partial<User>;
 ```
 
 ## Enum Naming
 
+**good**
+
 ```ts
-/**
- * good
- */
 enum LogLevel {
   DEBUG = 'debug',
   INFO = 'info',

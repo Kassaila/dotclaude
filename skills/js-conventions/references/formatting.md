@@ -9,20 +9,16 @@ files should look — independent of which tool enforces them.
 - No mixed indentation within a file
 - Continuation lines aligned or indented by one extra level
 
+**good**
+
+```js
+const result = longFunctionName(firstArgument, secondArgument, thirdArgument);
+```
+
+**bad**
+
 <!-- prettier-ignore -->
 ```js
-/**
- * good
- */
-const result = longFunctionName(
-  firstArgument,
-  secondArgument,
-  thirdArgument,
-);
-
-/**
- * bad
- */
 const result = longFunctionName(
     firstArgument,
 	  secondArgument,
@@ -41,17 +37,17 @@ const result = longFunctionName(
 - Backticks only when template interpolation or multiline is needed
 - Consistent quote style for object property names within a single object
 
-<!-- prettier-ignore -->
+**good**
+
 ```js
-/**
- * good
- */
 const name = 'Alice';
 const greeting = `Hello, ${name}`;
+```
 
-/**
- * bad
- */
+**bad**
+
+<!-- prettier-ignore -->
+```js
 const name = "Alice";
 const greeting = "Hello, " + name;
 ```
@@ -71,20 +67,20 @@ const greeting = "Hello, " + name;
   - Import/export lists
   - Destructuring assignments
 
-<!-- prettier-ignore -->
+**good**
+
 ```js
-/**
- * good
- */
 const config = {
   host: 'localhost',
   port: 3000,
   debug: true,
 };
+```
 
-/**
- * bad
- */
+**bad**
+
+<!-- prettier-ignore -->
+```js
 const config = {
   host: 'localhost',
   port: 3000,
@@ -98,18 +94,18 @@ const config = {
 - Curly braces required for all control flow blocks — even single-line `if`/`else`/`for`/`while`
 - Opening brace on the same line as the statement
 
-<!-- prettier-ignore -->
+**good**
+
 ```js
-/**
- * good
- */
 if (condition) {
   doSomething();
 }
+```
 
-/**
- * bad
- */
+**bad**
+
+<!-- prettier-ignore -->
+```js
 if (condition) doSomething();
 
 if (condition)
@@ -127,11 +123,9 @@ Keep one empty line between semantic blocks. Specific padding rules:
 - Empty line before and after block statements (`if`, `for`, `while`, `switch`, `try`)
 - Empty line between assignment expressions and call expressions
 
-<!-- prettier-ignore -->
+**good**
+
 ```js
-/**
- * good
- */
 const host = getHost();
 const port = getPort();
 
@@ -142,10 +136,12 @@ if (server.ready) {
 
   return server;
 }
+```
 
-/**
- * bad
- */
+**bad**
+
+<!-- prettier-ignore -->
+```js
 const host = getHost();
 const port = getPort();
 const server = createServer({ host, port });
@@ -169,11 +165,9 @@ except for tool directives.
 
 Single-line JSDoc comments must use multiline format:
 
-<!-- prettier-ignore -->
+**good**
+
 ```js
-/**
- * good
- */
 /**
  * Parse the input string into a structured object.
  */
@@ -182,10 +176,12 @@ const parseInput = (raw) => { ... };
 /**
  * TODO: Refactor to use streaming parser
  */
+```
 
-/**
- * bad
- */
+**bad**
+
+<!-- prettier-ignore -->
+```js
 // Parse the input string
 const parseInput = (raw) => { ... };
 
@@ -199,19 +195,19 @@ const parseInput = (raw) => { ... };
 
 Inline comments (on the same line as code) are forbidden. Move the comment above the code:
 
-<!-- prettier-ignore -->
+**good**
+
 ```js
-/**
- * good
- */
 /**
  * Increment retry counter
  */
 retries += 1;
+```
 
-/**
- * bad
- */
+**bad**
+
+<!-- prettier-ignore -->
+```js
 retries += 1; // increment
 ```
 
@@ -228,18 +224,18 @@ The following are not subject to the JSDoc-style requirement:
 
 TODO comments must follow the format `TODO: description` (uppercase, with colon and space):
 
-<!-- prettier-ignore -->
+**good**
+
 ```js
-/**
- * good
- */
 /**
  * TODO: Extract validation logic into a separate module
  */
+```
 
-/**
- * bad
- */
+**bad**
+
+<!-- prettier-ignore -->
+```js
 /**
  * todo - extract validation
  * Todo: extract validation

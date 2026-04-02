@@ -9,10 +9,9 @@ and refactors.
 - Never use `var`
 - Declare variables as close to first use as possible
 
+**good**
+
 ```js
-/**
- * good
- */
 const items = fetchItems();
 const count = items.length;
 
@@ -22,12 +21,17 @@ while (index < count) {
   processItem(items[index]);
   index += 1;
 }
+```
 
-/**
- * bad
- */
+**bad**
+
+<!-- prettier-ignore -->
+```js
 var items = fetchItems();
-let count = items.length; // never reassigned — should be const
+/**
+ * never reassigned — should be const
+ */
+let count = items.length;
 ```
 
 ## Arrow Functions
@@ -38,10 +42,9 @@ let count = items.length; // never reassigned — should be const
 - Single-expression arrows: omit braces and `return`
 - Multi-statement arrows: use block body
 
+**good**
+
 ```js
-/**
- * good
- */
 const double = (x) => x * 2;
 
 const process = (items) => {
@@ -49,17 +52,21 @@ const process = (items) => {
 
   return filtered.map((item) => item.value);
 };
+```
 
-/**
- * bad — function expression without this
- */
+**bad — function expression without this**
+
+<!-- prettier-ignore -->
+```js
 const double = function (x) {
   return x * 2;
 };
+```
 
-/**
- * bad — unnecessary block body
- */
+**bad — unnecessary block body**
+
+<!-- prettier-ignore -->
+```js
 const double = (x) => {
   return x * 2;
 };
@@ -69,16 +76,17 @@ const double = (x) => {
 
 Always use parentheses around arrow function parameters, even for a single parameter:
 
-```js
-/**
- * good
- */
-const getName = (user) => user.name;
+**good**
 
-/**
- * bad
- */
+```js
 const getName = (user) => user.name;
+```
+
+**bad**
+
+<!-- prettier-ignore -->
+```js
+const getName = user => user.name;
 ```
 
 ## Immutability
@@ -86,19 +94,20 @@ const getName = (user) => user.name;
 - Do not mutate input parameters — clone or create new objects
 - Avoid `arguments` — use rest parameters (`...args`)
 
+**good**
+
 ```js
-/**
- * good
- */
 const addDefaults = (config) => ({
   timeout: 5000,
   retries: 3,
   ...config,
 });
+```
 
-/**
- * bad — mutates input
- */
+**bad — mutates input**
+
+<!-- prettier-ignore -->
+```js
 const addDefaults = (config) => {
   config.timeout = config.timeout || 5000;
   config.retries = config.retries || 3;
@@ -113,10 +122,9 @@ const addDefaults = (config) => {
 - Keep return types consistent within a function — do not return different types from different
   branches
 
+**good — always returns a User or throws**
+
 ```js
-/**
- * good — always returns a User or throws
- */
 const getUser = (id) => {
   const user = db.find(id);
 
@@ -126,10 +134,12 @@ const getUser = (id) => {
 
   return user;
 };
+```
 
-/**
- * bad — returns User or undefined or null
- */
+**bad — returns User or undefined or null**
+
+<!-- prettier-ignore -->
+```js
 const getUser = (id) => {
   if (!id) {
     return null;
@@ -144,17 +154,18 @@ const getUser = (id) => {
 - Decompose long or complex expressions into intermediate variables with descriptive names
 - Avoid nested ternaries
 
+**good**
+
 ```js
-/**
- * good
- */
 const isEligible = age >= 18 && hasConsent;
 const discount = isEligible ? ELIGIBLE_DISCOUNT : DEFAULT_DISCOUNT;
 const finalPrice = basePrice * (1 - discount);
+```
 
-/**
- * bad
- */
+**bad**
+
+<!-- prettier-ignore -->
+```js
 const finalPrice = basePrice * (1 - (age >= 18 && hasConsent ? 0.2 : 0));
 ```
 
@@ -164,19 +175,23 @@ const finalPrice = basePrice * (1 - (age >= 18 && hasConsent ? 0.2 : 0));
 - Exception: `== null` is allowed (checks both `null` and `undefined`)
 - No implicit type coercion — use explicit conversion functions
 
+**good**
+
 ```js
-/**
- * good
- */
 if (value === '') { ... }
 if (value == null) { ... }
 const count = Number(input);
+```
 
-/**
- * bad
- */
+**bad**
+
+<!-- prettier-ignore -->
+```js
 if (value == '') { ... }
-if (!value) { ... }  // falsy check when you mean empty string
+/**
+ * falsy check when you mean empty string
+ */
+if (!value) { ... }
 const count = +input;
 ```
 
@@ -186,17 +201,18 @@ const count = +input;
 
 Always use curly braces for all control flow statements — no single-line exceptions:
 
+**good**
+
 ```js
-/**
- * good
- */
 if (ready) {
   start();
 }
+```
 
-/**
- * bad
- */
+**bad**
+
+<!-- prettier-ignore -->
+```js
 if (ready) start();
 ```
 
@@ -205,10 +221,9 @@ if (ready) start();
 Every `case` and `default` clause must be wrapped in braces to prevent scope issues with
 `let`/`const`:
 
+**good**
+
 ```js
-/**
- * good
- */
 switch (action) {
   case 'start': {
     const timer = createTimer();
@@ -220,10 +235,12 @@ switch (action) {
     log('unknown action');
   }
 }
+```
 
-/**
- * bad
- */
+**bad**
+
+<!-- prettier-ignore -->
+```js
 switch (action) {
   case 'start':
     const timer = createTimer();
@@ -242,23 +259,25 @@ Switch statements must include a `default` case, placed last.
 - Avoid `.forEach` when the callback operates on outer context — use `for...of` instead
 - Prefer explicit loops (`for`, `for...of`) in performance-sensitive paths
 
+**good — transform produces a value**
+
 ```js
-/**
- * good — transform produces a value
- */
 const names = users.map((user) => user.name);
 const active = users.filter((user) => user.isActive);
+```
 
-/**
- * good — side effect, use for...of
- */
+**good — side effect, use for...of**
+
+```js
 for (const user of users) {
   await sendNotification(user);
 }
+```
 
-/**
- * bad — forEach with side effects on outer scope
- */
+**bad — forEach with side effects on outer scope**
+
+<!-- prettier-ignore -->
+```js
 let total = 0;
 
 users.forEach((user) => {
@@ -273,15 +292,16 @@ users.forEach((user) => {
 - Comments should explain _why_, not _what_
 - Use descriptive names instead of comments
 
-```js
-/**
- * good — name explains intent
- */
-const isExpired = expiresAt < Date.now();
+**good — name explains intent**
 
-/**
- * bad — comment restates code
- */
+```js
+const isExpired = expiresAt < Date.now();
+```
+
+**bad — comment restates code**
+
+<!-- prettier-ignore -->
+```js
 /**
  * Check if expired
  */

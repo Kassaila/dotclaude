@@ -9,25 +9,37 @@ order. Shape changes cause deoptimization.
 
 **Rule: keep shapes stable after construction.**
 
+**good — shape is fixed at creation**
+
 ```js
-/**
- * good — shape is fixed at creation
- */
 class Connection {
   constructor(host, port) {
     this.host = host;
     this.port = port;
-    this.socket = null; // placeholder, not added later
+    /**
+     * placeholder, not added later
+     */
+    this.socket = null;
     this.connected = false;
   }
 }
+```
+
+**bad — shape mutates after creation**
+
+<!-- prettier-ignore -->
+```js
+const conn = { host, port };
 
 /**
- * bad — shape mutates after creation
+ * shape change
  */
-const conn = { host, port };
-conn.socket = net.connect(port, host); // shape change
-conn.connected = true; // another shape change
+conn.socket = net.connect(port, host);
+
+/**
+ * another shape change
+ */
+conn.connected = true;
 ```
 
 - Initialize all fields in constructor or factory, in the same order
@@ -40,16 +52,20 @@ conn.connected = true; // another shape change
 A function is monomorphic when it always receives the same argument types and returns the same type.
 V8 optimizes monomorphic call sites aggressively.
 
+**good — always receives (number, number), returns number**
+
+```js
+const add = (a, b) => a + b;
+```
+
+**bad — polymorphic: sometimes string, sometimes number**
+
+<!-- prettier-ignore -->
 ```js
 /**
- * good — always receives (number, number), returns number
+ * called with (1, 2) and ('a', 'b')
  */
 const add = (a, b) => a + b;
-
-/**
- * bad — polymorphic: sometimes string, sometimes number
- */
-const add = (a, b) => a + b; // called with (1, 2) and ('a', 'b')
 ```
 
 - Keep hot functions with stable argument count, types, and return type
@@ -58,15 +74,16 @@ const add = (a, b) => a + b; // called with (1, 2) and ('a', 'b')
 
 ## Property Access
 
-```js
-/**
- * good — fixed property access
- */
-const name = user.name;
+**good — fixed property access**
 
-/**
- * avoid in hot paths — dynamic key
- */
+```js
+const name = user.name;
+```
+
+**avoid in hot paths — dynamic key**
+
+<!-- prettier-ignore -->
+```js
 const name = user[key];
 ```
 
@@ -75,15 +92,16 @@ const name = user[key];
 
 ## Arrays
 
-```js
-/**
- * good — dense, homogeneous
- */
-const ids = [1, 2, 3, 4, 5];
+**good — dense, homogeneous**
 
-/**
- * bad — holey, mixed kinds
- */
+```js
+const ids = [1, 2, 3, 4, 5];
+```
+
+**bad — holey, mixed kinds**
+
+<!-- prettier-ignore -->
+```js
 const data = [1, 'two', , null, { x: 3 }];
 ```
 
@@ -105,20 +123,21 @@ const data = [1, 'two', , null, { x: 3 }];
 
 ## Loop Optimizations
 
+**good — callback extracted, no try/catch in loop**
+
 ```js
-/**
- * good — callback extracted, no try/catch in loop
- */
 const processItem = (item) => transform(item);
 
 const results = [];
 for (const item of items) {
   results.push(processItem(item));
 }
+```
 
-/**
- * bad — inline callback recreated each iteration, try/catch inside
- */
+**bad — inline callback recreated each iteration, try/catch inside**
+
+<!-- prettier-ignore -->
+```js
 for (const item of items) {
   try {
     results.push((x) => transform(x));

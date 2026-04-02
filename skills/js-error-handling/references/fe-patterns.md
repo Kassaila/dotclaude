@@ -139,7 +139,9 @@ error boundary.
 ```javascript
 async function fetchWithFallback(url, cacheKey) {
   try {
-    return await fetch(url).then((r) => r.json());
+    const response = await fetch(url);
+
+    return response.json();
   } catch (error) {
     console.warn('Fetch failed, using cache:', error);
 

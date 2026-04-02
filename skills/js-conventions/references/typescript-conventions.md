@@ -8,9 +8,11 @@ typed code.
 - Prefer `interface` for object shapes — it is the default enforced by the linter
 - Use `type` for: unions, intersections, mapped types, conditional types, primitives, tuples
 
+**good**
+
 ```ts
 /**
- * good — object shape
+ * object shape
  */
 interface User {
   id: string;
@@ -19,18 +21,20 @@ interface User {
 }
 
 /**
- * good — union type
+ * union type
  */
 type Status = 'active' | 'inactive' | 'suspended';
 
 /**
- * good — intersection
+ * intersection
  */
 type AdminUser = User & { permissions: Permission[] };
+```
 
-/**
- * bad — type for plain object shape
- */
+**bad — type for plain object shape**
+
+<!-- prettier-ignore -->
+```ts
 type User = {
   id: string;
   name: string;
@@ -42,16 +46,17 @@ type User = {
 - Use `import type` for type-only imports — this is enforced by the linter
 - Prefer inline type imports when mixing value and type imports
 
+**good**
+
 ```ts
-/**
- * good
- */
 import type { Config } from './config';
 import { createApp, type AppOptions } from './app';
+```
 
-/**
- * bad — type imported as regular import
- */
+**bad — type imported as regular import**
+
+<!-- prettier-ignore -->
+```ts
 import { Config } from './config';
 ```
 
@@ -72,21 +77,23 @@ import { Config } from './config';
 | `TInput`   | Input of a transform    | `transform<TInput, TOutput>`            |
 | `TConfig`  | Configuration type      | `createApp<TConfig extends BaseConfig>` |
 
-```ts
-/**
- * good — simple generic
- */
-const first = <T>(items: T[]): T | undefined => items[0];
+**good — simple generic**
 
-/**
- * good — descriptive generics
- */
+```ts
+const first = <T>(items: T[]): T | undefined => items[0];
+```
+
+**good — descriptive generics**
+
+```ts
 const transform = <TInput, TOutput>(items: TInput[], fn: (item: TInput) => TOutput): TOutput[] =>
   items.map(fn);
+```
 
-/**
- * bad — ambiguous single letters for complex case
- */
+**bad — ambiguous single letters for complex case**
+
+<!-- prettier-ignore -->
+```ts
 const transform = <A, B>(items: A[], fn: (item: A) => B): B[] => items.map(fn);
 ```
 
@@ -95,20 +102,21 @@ const transform = <A, B>(items: A[], fn: (item: A) => B): B[] => items.map(fn);
 - Use `extends` to constrain generics — be as specific as needed
 - Prefer interface constraints over inline object types
 
+**good**
+
 ```ts
-/**
- * good
- */
 interface HasId {
   id: string;
 }
 
 const findById = <T extends HasId>(items: T[], id: string): T | undefined =>
   items.find((item) => item.id === id);
+```
 
-/**
- * bad — unconstrained
- */
+**bad — unconstrained**
+
+<!-- prettier-ignore -->
+```ts
 const findById = <T>(items: T[], id: string): T | undefined =>
   items.find((item) => (item as { id: string }).id === id);
 ```
@@ -118,17 +126,18 @@ const findById = <T>(items: T[], id: string): T | undefined =>
 - Use `T[]` for simple element types
 - Use `Array<T>` for complex element types (unions, intersections, generics)
 
+**good**
+
 ```ts
-/**
- * good
- */
 const ids: string[] = [];
 const entries: Array<[string, number]> = [];
 const handlers: Array<(event: Event) => void> = [];
+```
 
-/**
- * bad
- */
+**bad**
+
+<!-- prettier-ignore -->
+```ts
 const ids: Array<string> = [];
 const entries: [string, number][] = [];
 ```
@@ -139,10 +148,9 @@ const entries: [string, number][] = [];
 - Use `unknown` instead of `any` for values that need runtime checking
 - Assertions (`as`) are a last resort
 
+**good — discriminated union**
+
 ```ts
-/**
- * good — discriminated union
- */
 interface Success {
   status: 'success';
   data: User;
@@ -162,16 +170,19 @@ const handle = (result: Result) => {
 
   throw new Error(result.error);
 };
+```
 
-/**
- * good — type guard
- */
+**good — type guard**
+
+```ts
 const isUser = (value: unknown): value is User =>
   typeof value === 'object' && value !== null && 'id' in value && 'name' in value;
+```
 
-/**
- * bad — assertion
- */
+**bad — assertion**
+
+<!-- prettier-ignore -->
+```ts
 const user = response.data as User;
 ```
 
@@ -191,16 +202,17 @@ Use built-in utility types instead of manual definitions:
 | `Parameters<T>` | Infer function parameter types |
 | `Awaited<T>`    | Unwrap Promise type            |
 
+**good**
+
 ```ts
-/**
- * good
- */
 type UserUpdate = Partial<Omit<User, 'id'>>;
 type UserSummary = Pick<User, 'id' | 'name'>;
+```
 
-/**
- * bad — manual partial
- */
+**bad — manual partial**
+
+<!-- prettier-ignore -->
+```ts
 interface UserUpdate {
   name?: string;
   email?: string;
@@ -212,10 +224,9 @@ interface UserUpdate {
 - Use `as const` for literal values that should not widen
 - Prefer `as const` over manual readonly types for fixed data
 
+**good**
+
 ```ts
-/**
- * good
- */
 const DIRECTIONS = ['north', 'south', 'east', 'west'] as const;
 type Direction = (typeof DIRECTIONS)[number];
 
@@ -223,10 +234,12 @@ const CONFIG = {
   maxRetries: 3,
   timeoutMs: 5000,
 } as const;
+```
 
-/**
- * bad — manual enum for simple literals
- */
+**bad — manual enum for simple literals**
+
+<!-- prettier-ignore -->
+```ts
 enum Direction {
   North = 'north',
   South = 'south',
@@ -242,10 +255,9 @@ enum Direction {
 - Use `unknown` for values from external boundaries (API responses, user input, parsed JSON)
 - Narrow `unknown` with type guards before use
 
+**good**
+
 ```ts
-/**
- * good
- */
 const parseResponse = (raw: unknown): User => {
   if (!isUser(raw)) {
     throw new Error('Invalid user data');
@@ -253,10 +265,12 @@ const parseResponse = (raw: unknown): User => {
 
   return raw;
 };
+```
 
-/**
- * bad
- */
+**bad**
+
+<!-- prettier-ignore -->
+```ts
 const parseResponse = (raw: any): User => raw;
 ```
 
@@ -265,17 +279,18 @@ const parseResponse = (raw: any): User => raw;
 - Unused variables and parameters are errors
 - Prefix intentionally unused names with underscore: `_unusedParam`, `_`
 
+**good**
+
 ```ts
-/**
- * good
- */
 const handler = (_event: Event, data: Data) => {
   process(data);
 };
+```
 
-/**
- * bad
- */
+**bad**
+
+<!-- prettier-ignore -->
+```ts
 const handler = (event: Event, data: Data) => {
   process(data);
 };
@@ -287,15 +302,16 @@ const handler = (event: Event, data: Data) => {
 - Use `void` operator for intentional fire-and-forget: `void sendAnalytics()`
 - Avoid passing async functions as callbacks to interfaces that expect sync return (`void`)
 
+**good**
+
 ```ts
-/**
- * good
- */
 await saveUser(user);
 void logAnalytics(event);
+```
 
-/**
- * bad — floating promise
- */
+**bad — floating promise**
+
+<!-- prettier-ignore -->
+```ts
 saveUser(user);
 ```

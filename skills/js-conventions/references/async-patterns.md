@@ -8,28 +8,30 @@ environments.
 - Use `async`/`await` over raw `.then()`/`.catch()` chains
 - Exception: simple one-liner transforms where `.then()` is clearer
 
+**good**
+
 ```js
-/**
- * good
- */
 const fetchUser = async (id) => {
   const response = await fetch(`/api/users/${id}`);
   const user = await response.json();
 
   return user;
 };
+```
 
-/**
- * bad — unnecessary chaining
- */
+**bad — unnecessary chaining**
+
+<!-- prettier-ignore -->
+```js
 const fetchUser = (id) =>
   fetch(`/api/users/${id}`)
     .then((response) => response.json())
     .then((user) => user);
+```
 
-/**
- * acceptable — simple transform
- */
+**acceptable — simple transform**
+
+```js
 const fetchUserName = (id) => fetchUser(id).then((user) => user.name);
 ```
 
@@ -39,10 +41,9 @@ const fetchUserName = (id) => fetchUser(id).then((user) => user.name);
 - Use `try`/`catch` at the appropriate scope — not inside every function
 - Re-throw or wrap errors with context when catching in intermediate layers
 
+**good — catch at the boundary**
+
 ```js
-/**
- * good — catch at the boundary
- */
 const loadDashboard = async () => {
   try {
     const user = await fetchUser(userId);
@@ -55,10 +56,12 @@ const loadDashboard = async () => {
     throw error;
   }
 };
+```
 
-/**
- * bad — silently swallowing errors
- */
+**bad — silently swallowing errors**
+
+<!-- prettier-ignore -->
+```js
 const loadDashboard = async () => {
   try {
     const user = await fetchUser(userId);
@@ -75,20 +78,22 @@ const loadDashboard = async () => {
 - Every promise must be awaited, returned, or explicitly voided
 - Use `void` prefix for fire-and-forget promises (when intentional)
 
+**good**
+
 ```js
-/**
- * good
- */
 await sendAnalytics(event);
+```
 
-/**
- * good — explicit fire-and-forget
- */
+**good — explicit fire-and-forget**
+
+```js
 void sendAnalytics(event);
+```
 
-/**
- * bad — floating promise
- */
+**bad — floating promise**
+
+<!-- prettier-ignore -->
+```js
 sendAnalytics(event);
 ```
 
@@ -98,21 +103,23 @@ sendAnalytics(event);
 - Use `Promise.all` when operations are independent
 - Use `Promise.allSettled` when you need all results regardless of individual failures
 
-```js
-/**
- * good — parallel, independent
- */
-const [users, products] = await Promise.all([fetchUsers(), fetchProducts()]);
+**good — parallel, independent**
 
-/**
- * good — sequential, dependent
- */
+```js
+const [users, products] = await Promise.all([fetchUsers(), fetchProducts()]);
+```
+
+**good — sequential, dependent**
+
+```js
 const user = await fetchUser(id);
 const orders = await fetchOrders(user.accountId);
+```
 
-/**
- * bad — sequential when parallel is possible
- */
+**bad — sequential when parallel is possible**
+
+<!-- prettier-ignore -->
+```js
 const users = await fetchUsers();
 const products = await fetchProducts();
 ```
@@ -146,10 +153,9 @@ const succeeded = results.filter((r) => r.status === 'fulfilled').map((r) => r.v
 - Pass `signal` through the call chain — do not create new controllers at each level
 - Clean up abort controllers to avoid memory leaks
 
+**good — cancellable fetch**
+
 ```js
-/**
- * good — cancellable fetch
- */
 const fetchWithTimeout = async (url, timeoutMs) => {
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
@@ -162,10 +168,11 @@ const fetchWithTimeout = async (url, timeoutMs) => {
     clearTimeout(timeoutId);
   }
 };
+```
 
-/**
- * good — pass signal through
- */
+**good — pass signal through**
+
+```js
 const loadData = async (signal) => {
   const response = await fetch('/api/data', { signal });
 
@@ -178,10 +185,9 @@ const loadData = async (signal) => {
 - Use `for await...of` for async iterables (streams, async generators)
 - Do not mix `for await` with synchronous iterables
 
+**good**
+
 ```js
-/**
- * good
- */
 const processStream = async (stream) => {
   for await (const chunk of stream) {
     await handleChunk(chunk);
@@ -195,10 +201,9 @@ const processStream = async (stream) => {
 - Use for module initialization: config loading, DB connection, cache warm-up
 - Keep top-level await minimal — long-running operations delay module loading
 
+**good — module initialization**
+
 ```js
-/**
- * good — module initialization
- */
 const config = await loadConfig();
 const db = await connectDatabase(config.dbUrl);
 
@@ -210,10 +215,9 @@ export { config, db };
 - Do not pass async functions where a sync callback is expected (unless the caller handles it)
 - Array methods (`.map`, `.filter`, `.forEach`) do not await async callbacks
 
+**good — explicit Promise.all**
+
 ```js
-/**
- * good — explicit Promise.all
- */
 const results = await Promise.all(
   items.map(async (item) => {
     const data = await fetchData(item.id);
@@ -221,17 +225,20 @@ const results = await Promise.all(
     return transform(data);
   }),
 );
+```
 
-/**
- * bad — forEach does not await
- */
+**bad — forEach does not await**
+
+<!-- prettier-ignore -->
+```js
 items.forEach(async (item) => {
   await processItem(item);
 });
+```
 
-/**
- * good — for...of for sequential async
- */
+**good — for...of for sequential async**
+
+```js
 for (const item of items) {
   await processItem(item);
 }

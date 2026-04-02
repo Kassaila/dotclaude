@@ -13,10 +13,9 @@ Group imports in the following order, separated by empty lines:
 5. **Internal aliases** — `import { db } from '@/lib/db'`
 6. **Relative imports** — `import { helper } from './helper'`
 
+**good**
+
 ```js
-/**
- * good
- */
 import type { User, Config } from '@/types';
 
 import 'reflect-metadata';
@@ -35,20 +34,22 @@ import { validate } from './validate';
 - Use `import type` for type-only imports
 - Prefer inline type imports when mixing value and type imports from the same module
 
+**good — inline type import**
+
 ```ts
-/**
- * good — inline type import
- */
 import { createUser, type UserOptions } from './user';
+```
 
-/**
- * good — standalone type import
- */
+**good — standalone type import**
+
+```ts
 import type { Config } from './config';
+```
 
-/**
- * bad — type imported as value
- */
+**bad — type imported as value**
+
+<!-- prettier-ignore -->
+```ts
 import { Config } from './config';
 ```
 
@@ -57,15 +58,16 @@ import { Config } from './config';
 - Do not import from the same module in multiple statements
 - Merge into a single import with inline type specifiers where needed
 
-```ts
-/**
- * good
- */
-import { createUser, type UserOptions } from './user';
+**good**
 
-/**
- * bad — duplicate source
- */
+```ts
+import { createUser, type UserOptions } from './user';
+```
+
+**bad — duplicate source**
+
+<!-- prettier-ignore -->
+```ts
 import { createUser } from './user';
 import type { UserOptions } from './user';
 ```
@@ -76,17 +78,18 @@ import type { UserOptions } from './user';
 - Break cycles by extracting shared code into a third module
 - Move types to a dedicated types file if the cycle is type-only
 
-```
-/**
- * bad — circular
- */
-user.ts → order.ts → user.ts
+**good — extract shared dependency**
 
-/**
- * good — extract shared dependency
- */
+```
 user.ts → types.ts
 order.ts → types.ts
+```
+
+**bad — circular**
+
+<!-- prettier-ignore -->
+```
+user.ts → order.ts → user.ts
 ```
 
 ## Barrel Files (Re-Exports)
@@ -95,17 +98,18 @@ order.ts → types.ts
 - Do not use barrel files for internal module directories — import directly
 - Keep barrel files thin: only `export { ... } from './...'`, no logic
 
+**good — package public API**
+
 ```ts
-/**
- * good — package public API
- */
 export { createApp } from './app';
 export { createRouter } from './router';
 export type { AppConfig } from './types';
+```
 
-/**
- * bad — logic in barrel file
- */
+**bad — logic in barrel file**
+
+<!-- prettier-ignore -->
+```ts
 export const VERSION = '1.0.0';
 export const createApp = () => { ... };
 ```
@@ -132,21 +136,23 @@ export const createApp = () => { ... };
 - Default exports are acceptable for: main app entry, page components, config files
 - Do not mix default and named exports in the same module
 
+**good — named exports**
+
 ```ts
-/**
- * good — named exports
- */
 export const createUser = (name) => ({ name });
 export const deleteUser = (id) => db.delete(id);
+```
 
-/**
- * acceptable — component default export
- */
+**acceptable — component default export**
+
+```ts
 export default defineComponent({ ... });
+```
 
-/**
- * bad — mixed
- */
+**bad — mixed**
+
+<!-- prettier-ignore -->
+```ts
 export default createApp;
 export const config = { ... };
 ```
@@ -157,10 +163,9 @@ export const config = { ... };
 - Internal modules should not be imported from outside their boundary
 - Keep the dependency graph acyclic and shallow
 
+**good — clear boundaries**
+
 ```
-/**
- * good — clear boundaries
- */
 features/
   auth/
     index.ts          ← public API
@@ -169,14 +174,17 @@ features/
   billing/
     index.ts          ← public API
     invoice.ts        ← internal
+```
 
-/**
- * import from boundary
- */
+**good — import from boundary**
+
+```
 import { login } from '@/features/auth';
+```
 
-/**
- * bad — reaching into internals
- */
+**bad — reaching into internals**
+
+<!-- prettier-ignore -->
+```
 import { validateToken } from '@/features/auth/session';
 ```
