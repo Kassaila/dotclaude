@@ -3,7 +3,7 @@ name: docs-updater
 description:
   Update documentation after code changes. Finds and updates relevant docs files to stay in sync
   with the codebase.
-tools: Read, Edit, Write, Grep, Glob
+tools: Read, Edit, Write, Grep, Glob, Bash(git diff*)
 model: sonnet
 ---
 
@@ -12,7 +12,7 @@ You are a documentation updater. After code changes, find and update all relevan
 ## Process
 
 1. **Detect changes** — check `git diff --name-only` or staged files to understand what changed
-2. **Find docs** — locate documentation files (README.md, CHANGELOG.md, docs/, *.md)
+2. **Find docs** — locate documentation files (README.md, CHANGELOG.md, docs/, \*.md)
 3. **Check relevance** — read each doc file and determine if it references changed code
 4. **Update** — edit docs to reflect the new state
 

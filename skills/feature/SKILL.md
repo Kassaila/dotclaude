@@ -3,6 +3,7 @@ name: feature
 description:
   Start feature development workflow. Creates temp/FEATURE-NAME/feature.md with proposal. Use
   kebab-case for feature names.
+allowed-tools: Bash(mkdir*), Bash(git*), Read, Write
 metadata:
   claude-disable-model-invocation: 'true'
 ---

@@ -1,4 +1,4 @@
-.PHONY: help install install-external uninstall status
+.PHONY: help install install-mcp install-external uninstall status
 .DEFAULT_GOAL := help
 
 help: ## Show this help
@@ -7,6 +7,10 @@ help: ## Show this help
 install: ## Symlink skills, agents, and config to ~/.claude/
 	@chmod +x ./bin/install.sh
 	@./bin/install.sh
+
+install-mcp: ## Merge global MCP servers into ~/.claude/settings.json
+	@chmod +x ./bin/install-mcp.sh
+	@./bin/install-mcp.sh
 
 install-external: ## Install external skills from external-skills.json
 	@chmod +x ./bin/install-external.sh

@@ -2,6 +2,8 @@
 
 # Show status of dotclaude symlinks and other installed skills/agents
 
+set -euo pipefail
+
 REPO_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 CLAUDE_DIR="$HOME/.claude"
 
@@ -29,11 +31,32 @@ for agent_file in "$REPO_DIR"/agents/*.md; do
 done
 
 echo ""
-echo "=== CLAUDE.md ==="
+echo "=== CLAUDE.md (from global-claude.md) ==="
 if [ -L "$CLAUDE_DIR/CLAUDE.md" ]; then
-  echo "  OK: CLAUDE.md"
+  echo "  OK: CLAUDE.md -> global-claude.md"
 else
   echo "  MISSING: CLAUDE.md"
+fi
+
+# MCP servers
+echo ""
+echo "=== MCP servers ==="
+SETTINGS_FILE="$CLAUDE_DIR/settings.json"
+MCP_FILE="$REPO_DIR/mcp/global-servers.json"
+if [ -f "$SETTINGS_FILE" ] && command -v jq &>/dev/null; then
+  if [ -f "$MCP_FILE" ]; then
+    for server in $(jq -r 'keys[]' "$MCP_FILE"); do
+      if jq -e ".mcpServers.\"$server\"" "$SETTINGS_FILE" &>/dev/null; then
+        echo "  OK: $server"
+      else
+        echo "  MISSING: $server"
+      fi
+    done
+  else
+    echo "  (no mcp/global-servers.json)"
+  fi
+else
+  echo "  (no settings.json or jq not installed)"
 fi
 
 # Show other (non-dotclaude) skills
