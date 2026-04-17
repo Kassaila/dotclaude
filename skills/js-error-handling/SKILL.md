@@ -1,9 +1,10 @@
 ---
 name: js-error-handling
 description:
-  Apply error handling and recovery patterns in JavaScript/TypeScript — Node.js and browser. Use
-  when implementing error handling, retry logic, domain errors, error boundaries, global error
-  handlers, or error recovery/escalation.
+  Apply error handling and recovery patterns in JavaScript/TypeScript — Node.js and browser. TRIGGER
+  when user implements try/catch blocks, custom error classes, retry logic, error boundaries, global
+  error handlers, graceful shutdown, or asks about error recovery/escalation. DO NOT TRIGGER when
+  user writes a simple catch for logging only, or works with non-JS/TS languages.
 ---
 
 # JS Error Handling

@@ -1,10 +1,11 @@
 ---
 name: js-gof
 description:
-  Apply Gang of Four and related design patterns in JavaScript/TypeScript. Use when implementing
-  creational, structural, or behavioral patterns, or when the user mentions factory, builder,
-  singleton, adapter, proxy, decorator, observer, strategy, command, state, mediator, iterator, or
-  any other GoF pattern.
+  Apply Gang of Four and related design patterns in JavaScript/TypeScript. TRIGGER when user
+  implements or asks about factory, builder, singleton, adapter, proxy, decorator, observer,
+  strategy, command, state, mediator, iterator, composite, facade, chain of responsibility, or any
+  other creational/structural/behavioral pattern in JS/TS. DO NOT TRIGGER when user uses simple
+  object creation without pattern intent, or works with non-JS/TS languages.
 ---
 
 # GoF Patterns (JavaScript)

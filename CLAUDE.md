@@ -10,32 +10,36 @@ instructions. Individual items are symlinked to `~/.claude/` and coexist with sk
 
 ```
 skills/                            # Slash commands (global)
-├── commit/SKILL.md                # /commit — analyze changes, propose and create commit
-├── commit-proposal/SKILL.md       # /commit-proposal — suggest commit message and files
-├── refactor/SKILL.md              # /refactor <target> — refactor with explanation
+├── commit/SKILL.md                # /commit — analyze, propose, commit (modes: full/propose/review)
+├── code-review/SKILL.md           # /code-review — review code via specialized reviewer agents
+├── update-docs/SKILL.md           # /update-docs — update docs via docs-updater agent
+├── refactor/SKILL.md              # /refactor <target> — refactor with explanation (+review mode)
 ├── explain/SKILL.md               # /explain <target> — explain code/architecture
-├── feature/SKILL.md               # /feature <name> — start feature workflow
-├── memory-leak-audit/             # /memory-leak-audit — audit for leak patterns
+├── feature/SKILL.md               # /feature <name> — start feature workflow (+docs/commit integration)
+├── memory-leak-audit/             # /memory-leak-audit — audit for leak patterns (auto-trigger)
 │   ├── SKILL.md
 │   └── references/                # 3 guides (leak patterns, framework patterns, fix reference)
 ├── skill-validator/SKILL.md       # /skill-validator — validate skills against spec
 ├── dep-bloat-audit/               # /dep-bloat-audit — audit npm deps for JS bloat
 │   ├── SKILL.md
 │   └── references/                # 4 package tables (shims, micro-pkgs, ponyfills, replacements)
-├── js-error-handling/             # /js-error-handling — JS/TS error handling & recovery patterns
+├── js-error-handling/             # /js-error-handling — JS/TS error handling patterns (auto-trigger)
 │   ├── SKILL.md
 │   └── references/                # 4 guides (common, node, frontend, domain errors)
 ├── js-conventions/                # /js-conventions — JS/TS code conventions (auto-trigger)
 │   ├── SKILL.md
 │   └── references/                # 9 guides (naming, formatting, async, modules, typescript, etc.)
-├── js-gof/                        # /js-gof — Gang of Four design patterns in JS/TS
+├── js-gof/                        # /js-gof — Gang of Four design patterns in JS/TS (auto-trigger)
 │   ├── SKILL.md
 │   └── references/                # 3 guides (creational, structural, behavioral)
 └── js-data-structures/            # /js-data-structures — JS data structures (auto-trigger)
     ├── SKILL.md
     └── references/                # 13 structure guides (queue, stack, heap, trie, graph, etc.)
 agents/                            # Subagents (global)
-├── code-reviewer.md               # Code review agent
+├── reviewer-architect.md          # Architecture reviewer (patterns, coupling, SOLID, layers)
+├── reviewer-performance.md        # Performance reviewer (N+1, allocations, resource leaks)
+├── reviewer-security.md           # Security reviewer (injections, secrets, auth, validation)
+├── reviewer-senior.md             # Senior dev reviewer (idioms, types, error handling, edge cases)
 └── docs-updater.md                # Documentation updater agent
 mcp/                               # MCP server configurations
 └── global-servers.json            # Global MCP servers (context7, playwright)

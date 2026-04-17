@@ -29,3 +29,8 @@ Refactor the specified code: `$ARGUMENTS`
 - Don't add features, types, comments, or docs beyond what's needed
 - Keep it simple — don't replace one complexity with another
 - If the code is already clean, say so
+
+## Integration
+
+- `/refactor review <target>` — after refactoring, automatically invoke `/code-review` on the
+  changed files to verify no regressions were introduced

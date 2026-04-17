@@ -1,10 +1,12 @@
 ---
 name: memory-leak-audit
 description:
-  Audit source code for frontend memory leak patterns — missing cleanup in lifecycle hooks, event
-  listeners without removal, timers without clear, subscriptions without unsubscribe, watchers
-  without stop handles. Use when reviewing components, after implementing features with side
-  effects, or when user asks about memory leaks.
+  Audit source code for frontend memory leak patterns. TRIGGER when user implements
+  addEventListener, setInterval, setTimeout, watch(), subscribe(), IntersectionObserver,
+  MutationObserver, or other side-effect code in components; after implementing features with
+  lifecycle hooks; or when user asks about memory leaks. DO NOT TRIGGER when user works with
+  backend-only code without DOM/component lifecycle, or adds a single event listener with immediate
+  cleanup visible in the same block.
 allowed-tools: Grep, Glob, Read
 ---
 

@@ -1,10 +1,11 @@
 ---
 name: js-data-structures
 description:
-  Implement and use data structures in JavaScript. Use when working with queues, stacks, heaps,
-  priority queues, caches, LRU, tries, circular buffers, bloom filters, union-find, bidirectional
-  maps, counters, or when the user asks about choosing between Map/Object/Set/Array or
-  grouping/counting/deduplication patterns.
+  Implement and use data structures in JavaScript. TRIGGER when user implements or asks about
+  queues, stacks, heaps, priority queues, caches, LRU, tries, circular buffers, bloom filters,
+  union-find, bidirectional maps, counters, or asks about choosing between Map/Object/Set/Array or
+  grouping/counting/deduplication patterns. DO NOT TRIGGER when using simple Array/Object/Map/Set
+  without complexity concerns, or working with non-JS languages.
 ---
 
 # Data Structures (JavaScript)

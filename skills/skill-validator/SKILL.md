@@ -43,7 +43,7 @@ Install it first: https://github.com/anthropics/skills"
    ```
    Skill               Status
    ─────────────────────────────
-   commit-proposal      ✓ valid
+   code-review          ✓ valid
    my-broken-skill      ✗ Missing 'description' in frontmatter
    ```
 

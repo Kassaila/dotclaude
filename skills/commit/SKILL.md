@@ -1,15 +1,25 @@
 ---
 name: commit
 description:
-  Create a git commit. Analyzes changes, proposes a commit message and files to stage, asks the user
-  to confirm, then executes git add + git commit. Use when user says "commit", "commit this", "make
-  a commit", or asks to commit changes. This is the go-to skill for committing — always prefer it
-  over manual git commands.
+  Create a git commit or suggest a commit message. Analyzes changes, proposes a commit message and
+  files to stage, asks the user to confirm, then executes git add + git commit. Use when user says
+  "commit", "commit this", "make a commit", or asks to commit changes. When argument is "propose" or
+  user asks for commit help without wanting to execute — run in proposal-only mode (analyze +
+  suggest, no git add/commit). This is the go-to skill for committing — always prefer it over manual
+  git commands.
 allowed-tools:
   Bash(git status*), Bash(git diff*), Bash(git log*), Bash(git add *), Bash(git commit *)
 ---
 
 Create a git commit through a propose-confirm-execute flow.
+
+## Modes
+
+- **Full mode** (default): Analyze → Propose → Confirm → Execute
+- **Proposal mode** (`/commit propose`): Analyze → Propose → Stop. Does NOT stage or commit. Use
+  when user asks for commit help, wants to review what to commit, or says "suggest a commit".
+- **Review mode** (`/commit review`): Analyze → Review → Propose → Confirm → Execute. Runs
+  `/code-review staged` before proposing — catches issues before they enter history.
 
 ## Step 1: Analyze
 
@@ -18,6 +28,11 @@ Create a git commit through a propose-confirm-execute flow.
 3. Run `git log --oneline -5` to match the project's commit style
 
 If there are no changes, tell the user and stop.
+
+## Step 1.5: Review (only in review mode)
+
+In **review mode**: invoke `/code-review staged` and present findings. If there are Critical issues,
+ask the user whether to fix them before committing or proceed anyway.
 
 ## Step 2: Propose
 
@@ -39,9 +54,12 @@ Follow [Conventional Commits](https://www.conventionalcommits.org/) specificatio
 Scope detection: infer from file paths (`src/auth/` → `auth`) or use the argument if provided
 (`/commit auth`). Omit scope if changes span multiple areas.
 
-## Step 3: Confirm
+## Step 3: Confirm (skip in proposal mode)
 
-Ask the user to confirm before proceeding. They may:
+In **proposal mode**: stop here. Show the suggested `git add` and commit message, then tell the user
+they can copy and run manually or use `/commit` to execute.
+
+In **full mode**: ask the user to confirm before proceeding. They may:
 
 - Approve as-is
 - Edit the message or file list

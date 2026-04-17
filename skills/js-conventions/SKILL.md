@@ -1,9 +1,10 @@
 ---
 name: js-conventions
 description:
-  Apply JavaScript/TypeScript code conventions. Use when writing or editing .js, .mjs, .ts, .vue
-  files, reviewing code style, or when the user asks about naming, formatting, or code quality
-  patterns.
+  Apply JavaScript/TypeScript code conventions. TRIGGER when code imports JS/TS modules, user writes
+  or edits .js, .mjs, .ts, .vue files, reviews code style, or asks about naming, formatting, or code
+  quality patterns. DO NOT TRIGGER when code is Python, Go, Rust, or other non-JS/TS language, or
+  user is only reading/explaining code without editing.
 allowed-tools: Read, Grep, Glob
 ---
 
