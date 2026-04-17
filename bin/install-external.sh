@@ -5,7 +5,7 @@
 set -euo pipefail
 
 for cmd in jq npx; do
-  if ! command -v "$cmd" &>/dev/null; then
+  if ! command -v "$cmd" &> /dev/null; then
     echo "ERROR: $cmd is required but not installed"
     exit 1
   fi

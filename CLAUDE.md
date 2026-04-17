@@ -60,11 +60,11 @@ package.json                       # Dev dependencies (prettier, husky, lint-sta
 ## Usage
 
 ```bash
-make install            # Symlink skills, agents, and config to ~/.claude/
-make install-mcp        # Merge global MCP servers into ~/.claude/settings.json
-make install-external   # Install external skills from external-skills.json
-make uninstall          # Remove dotclaude symlinks from ~/.claude/
-make status             # Show dotclaude and external skills status
+make install          # Symlink skills, agents, and config to ~/.claude/
+make install-mcp      # Merge global MCP servers into ~/.claude/settings.json
+make install-external # Install external skills from external-skills.json
+make uninstall        # Remove dotclaude symlinks from ~/.claude/
+make status           # Show dotclaude and external skills status
 ```
 
 - `make install` symlinks each skill, agent, and global-claude.md individually (not the whole

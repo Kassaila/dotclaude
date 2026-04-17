@@ -14,7 +14,7 @@ if [ ! -f "$MCP_FILE" ]; then
   exit 1
 fi
 
-if ! command -v jq &>/dev/null; then
+if ! command -v jq &> /dev/null; then
   echo "ERROR: jq is required (apt install jq)"
   exit 1
 fi

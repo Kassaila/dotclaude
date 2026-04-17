@@ -15,7 +15,10 @@ for skill_dir in "$REPO_DIR"/skills/*/; do
   if [ -L "$target" ]; then
     link_target="$(readlink "$target")"
     case "$link_target" in
-      "$REPO_DIR"/*) rm "$target"; echo "  Removed: skills/$skill_name" ;;
+      "$REPO_DIR"/*)
+        rm "$target"
+        echo "  Removed: skills/$skill_name"
+        ;;
       *) echo "  SKIP: skills/$skill_name (not a dotclaude symlink)" ;;
     esac
   fi
@@ -28,7 +31,10 @@ for agent_file in "$REPO_DIR"/agents/*.md; do
   if [ -L "$target" ]; then
     link_target="$(readlink "$target")"
     case "$link_target" in
-      "$REPO_DIR"/*) rm "$target"; echo "  Removed: agents/$agent_name" ;;
+      "$REPO_DIR"/*)
+        rm "$target"
+        echo "  Removed: agents/$agent_name"
+        ;;
       *) echo "  SKIP: agents/$agent_name (not a dotclaude symlink)" ;;
     esac
   fi
@@ -38,7 +44,10 @@ done
 if [ -L "$CLAUDE_DIR/CLAUDE.md" ]; then
   link_target="$(readlink "$CLAUDE_DIR/CLAUDE.md")"
   case "$link_target" in
-    "$REPO_DIR"/*) rm "$CLAUDE_DIR/CLAUDE.md"; echo "  Removed: CLAUDE.md" ;;
+    "$REPO_DIR"/*)
+      rm "$CLAUDE_DIR/CLAUDE.md"
+      echo "  Removed: CLAUDE.md"
+      ;;
     *) echo "  SKIP: CLAUDE.md (not a dotclaude symlink)" ;;
   esac
 fi
