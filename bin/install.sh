@@ -18,6 +18,23 @@ done
 
 mkdir -p "$CLAUDE_DIR/skills" "$CLAUDE_DIR/agents"
 
+# Remove broken symlinks that point into this repo (stale from renames/removals)
+for dir in "$CLAUDE_DIR/skills" "$CLAUDE_DIR/agents"; do
+  [ -d "$dir" ] || continue
+  for link in "$dir"/*; do
+    [ -L "$link" ] || continue
+    target="$(readlink "$link")"
+    case "$target" in
+      "$REPO_DIR"/*)
+        if [ ! -e "$link" ]; then
+          echo "  CLEAN: $(basename "$dir")/$(basename "$link") (broken)"
+          rm "$link"
+        fi
+        ;;
+    esac
+  done
+done
+
 # Symlink each skill individually
 for skill_dir in "$REPO_DIR"/skills/*/; do
   skill_name="$(basename "$skill_dir")"

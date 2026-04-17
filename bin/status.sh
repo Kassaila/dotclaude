@@ -43,10 +43,10 @@ echo ""
 echo "=== MCP servers ==="
 SETTINGS_FILE="$CLAUDE_DIR/settings.json"
 MCP_FILE="$REPO_DIR/mcp/global-servers.json"
-if [ -f "$SETTINGS_FILE" ] && command -v jq &>/dev/null; then
+if [ -f "$SETTINGS_FILE" ] && command -v jq &> /dev/null; then
   if [ -f "$MCP_FILE" ]; then
     for server in $(jq -r 'keys[]' "$MCP_FILE"); do
-      if jq -e ".mcpServers.\"$server\"" "$SETTINGS_FILE" &>/dev/null; then
+      if jq -e ".mcpServers.\"$server\"" "$SETTINGS_FILE" &> /dev/null; then
         echo "  OK: $server"
       else
         echo "  MISSING: $server"
@@ -58,6 +58,28 @@ if [ -f "$SETTINGS_FILE" ] && command -v jq &>/dev/null; then
 else
   echo "  (no settings.json or jq not installed)"
 fi
+
+# Detect broken symlinks pointing into this repo (stale from renames/removals)
+stale_found=false
+for dir in "$CLAUDE_DIR/skills" "$CLAUDE_DIR/agents"; do
+  [ -d "$dir" ] || continue
+  for link in "$dir"/*; do
+    [ -L "$link" ] || continue
+    target="$(readlink "$link")"
+    case "$target" in
+      "$REPO_DIR"/*)
+        if [ ! -e "$link" ]; then
+          if [ "$stale_found" = false ]; then
+            echo ""
+            echo "=== Stale symlinks (run 'make install' to clean) ==="
+            stale_found=true
+          fi
+          echo "  STALE: $(basename "$dir")/$(basename "$link") -> $target"
+        fi
+        ;;
+    esac
+  done
+done
 
 # Show other (non-dotclaude) skills
 echo ""
